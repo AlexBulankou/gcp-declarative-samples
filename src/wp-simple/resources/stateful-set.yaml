@@ -65,15 +65,15 @@ spec:
                 key: connectionName
         command: ["/cloud_sql_proxy",
                   "-instances=$(CONNECTION_NAME)=tcp:3306",
-                  "-credential_file=/secrets/cloudsql/key.json"] #credentials.json"]
+                  "-credential_file=/secrets/cloudsql/key.json"]
         volumeMounts:
-        - name: gcp-key-owner #cloudsql-instance-credentials
+        - name: gcp-key-owner
           mountPath: /secrets/cloudsql
           readOnly: true
       volumes:
-        - name: gcp-key-owner #cloudsql-instance-credentials
+        - name: gcp-key-owner
           secret:
-            secretName: gcp-key-owner #cloudsql-instance-credentials
+            secretName: gcp-key-owner
   volumeClaimTemplates:
     - metadata:
         name: wordpress-volume
