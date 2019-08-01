@@ -1,0 +1,10 @@
+apiVersion: sql.cnrm.cloud.google.com/v1alpha3
+kind: SQLDatabase
+metadata:
+  labels:
+    label-one: "value-one"
+  name: wordpress
+spec:
+  charset: utf8
+  instanceRef:
+    name: wp-db

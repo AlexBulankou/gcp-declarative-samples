@@ -10,3 +10,8 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Repo specific files
+key*json
+.DS_Store
+kcc-install-bundle/**
