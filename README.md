@@ -6,7 +6,7 @@ This repo contains a collection of infrastructure examples using [Kubernetes Con
 
 This example shows how you can deploy Wordpress to your Kubernetes cluster, backed by Google CloudSQL database. Once Kubernetes Config Connector is enabled, the whole installation takes a single kubectl command to run.
 
-One limitation of Config Connector today is that sql_user resource is referencing credentials in clear text. Once secretRef's are supported, it will be possible to reference database credentials from Kubernetes secret resource.
+One limitation of Config Connector today is that sql_user resource is referencing credentials in clear text. Once secretRef's are supported for sensitive fields, it will be possible to reference database credentials from Kubernetes secrets.
 
 1. Replace with your project name.
 
@@ -31,11 +31,11 @@ One limitation of Config Connector today is that sql_user resource is referencin
 
 This extends the previous example by enabling Workload Identity integration. This requires 4 additional resources:
 * [Google service account (GSA)](src/wp-wi/resources/sql-service-account.yaml)
-* [sqlclient permission for GSA](src/wp-wi/deploy.sh). Currently this step is done via gcloud command, however soon it will be possible to configure individual binding declaratively.
+* [Sqlclient permission for GSA](src/wp-wi/deploy.sh). Currently this step is done via gcloud command, however soon it will be possible to configure individual binding declaratively.
 * [Kubernetes service account (KSA)](src/wp-wi/resources/k8s-service-account.yaml) annotated with GSA
 * [Workload identity permission for GSA](src/wp-wi/resources/wi-policy.yaml) that links GSA and KSA
 
-In this sample there's no longer needed to mount keys in the [pod configuration](src/wp-wi/resources/stateful-set.yaml) as SQL client permissions are propagated through Kubernetes service account. (note serviceAccountName field in pod config).
+In this sample there's no longer needed to mount keys in the [pod configuration](src/wp-wi/resources/stateful-set.yaml) as SQL client permissions are propagated through Kubernetes service account. Note: don't forget serviceAccountName field in pod config.
 
 1. Replace with your project name.
 
