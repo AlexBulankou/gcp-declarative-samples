@@ -15,6 +15,7 @@ spec:
         app: wordpress
     spec:
       terminationGracePeriodSeconds: 30
+      serviceAccountName: sql-wp-ksa-wi
       containers:
       - name: wordpress
         image: wordpress:4.9.8-apache
@@ -63,17 +64,13 @@ spec:
               secretKeyRef:
                 name: wordpress-cloudsql-db-credentials
                 key: connectionName
+          - name: PROJECT_ID
+            valueFrom:
+              secretKeyRef:
+                name: wordpress-cloudsql-db-credentials
+                key: projectId
         command: ["/cloud_sql_proxy",
-                  "-instances=$(CONNECTION_NAME)=tcp:3306",
-                  "-credential_file=/secrets/cloudsql/credentials.json"]
-        volumeMounts:
-        - name: cloudsql-instance-credentials
-          mountPath: /secrets/cloudsql
-          readOnly: true
-      volumes:
-        - name: cloudsql-instance-credentials
-          secret:
-            secretName: cloudsql-instance-credentials
+                  "-instances=$(PROJECT_ID):$(CONNECTION_NAME)=tcp:3306"]
   volumeClaimTemplates:
     - metadata:
         name: wordpress-volume

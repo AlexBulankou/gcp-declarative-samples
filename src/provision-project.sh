@@ -2,7 +2,7 @@
 
 # LC_CTYPE=C && find ./ -type f -exec sed -i '' 's/old_project_name/new_project_name/g' {} \;
 
-PROJECT_ID=alexbu-kcc-wp4
+PROJECT_ID=[PROJECT_ID]
 ZONE=us-central1-a
 
 gcloud config set project $PROJECT_ID
