@@ -11,7 +11,7 @@ One limitation of Config Connector today is that sql_user resource is referencin
 1. Replace with your project name.
 
     ```bash
-    LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/[PROJECT_ID]/your_project_id/g' {} \;
+    LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[PROJECT_ID\]/your_project_id/g' {} \;
     ```
 
 1. Initialize project and cluster:
@@ -40,7 +40,7 @@ In this sample there's no longer needed to mount keys in the [pod configuration]
 1. Replace with your project name.
 
     ```bash
-       LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/[PROJECT_ID]/your_project_id/g' {} \;
+       LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[PROJECT_ID\]/your_project_id/g' {} \;
     ```
 
 1. Initialize project and cluster:
