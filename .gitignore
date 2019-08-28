@@ -14,4 +14,4 @@
 # Repo specific files
 key*json
 .DS_Store
-kcc-install-bundle/**
+custom-settings.md

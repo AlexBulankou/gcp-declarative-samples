@@ -12,14 +12,13 @@ One limitation of Config Connector today is that sql_user resource is referencin
 
     ```bash
     LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[PROJECT_ID\]/your_project_id/g' {} \;
+    LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[BILLING_ACCOUNT\]/your_billing_account/g' {} \;
     ```
 
 1. Initialize project and cluster:
 
     ```bash
-    bash src/provision-project.sh
-    bash src/provision-cluster.sh
-    ```
+    bash src/provision.sh
 
 1. Deploy:
 
@@ -40,14 +39,14 @@ In this sample there's no longer needed to mount keys in the [pod configuration]
 1. Replace with your project name.
 
     ```bash
-       LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[PROJECT_ID\]/your_project_id/g' {} \;
+    LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[PROJECT_ID\]/your_project_id/g' {} \;
+    LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[BILLING_ACCOUNT\]/your_billing_account/g' {} \;
     ```
 
 1. Initialize project and cluster:
 
     ```bash
-    bash src/provision-project.sh
-    bash src/provision-cluster.sh
+    bash src/provision.sh
     ```
 
 1. Deploy:
