@@ -55,8 +55,36 @@ In this sample there's no longer needed to mount keys in the [pod configuration]
     kubectl apply -f src/wp-wi/resources/
     ```
 
-1. Enable SQL account binding. This step will be replaced with declarative config:
+1. Enable SQL account binding after account is created. This step will be replaced with declarative config:
 
     ```bash
+    kubectl wait --for=condition=Ready iamserviceaccount/sql-wp-sa --timeout=30m
     bash src/wp-wi/deploy.sh
     ```
+
+1. Wait for sql instance to be ready
+    ```bash
+    # Note that you can wait on the proxy resources too
+    kubectl wait --for=condition=Ready sqlinstance/wp-db --timeout=30m
+    kubectl wait --for=condition=Ready sqluser/wordpress --timeout=30m
+
+    # But ultimately you need to wait on the pod to be created
+    kubectl wait --for=condition=Ready pods/wordpress-0 --timeout=30m
+    ```
+
+## Enabling GateKeeper 
+
+As an additional extension, this example demonstrates the use of gatekeeper. First it applies the release version of gatekeeper, then applies constraint template.
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml
+kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/demo/agilebank/templates/k8scontainterlimits_template.yaml
+```
+
+## Clean up:
+``` bash
+kubectl delete -f src/wp-wi/resources/
+kubectl delete pvc wordpress-volume-2-wordpress-0
+bash src/wp-wi/undeploy.sh
+```
+

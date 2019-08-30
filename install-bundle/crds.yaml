@@ -1,0 +1,3483 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: bigquerydatasets.bigquery.cnrm.cloud.google.com
+spec:
+  group: bigquery.cnrm.cloud.google.com
+  names:
+    kind: BigQueryDataset
+    plural: bigquerydatasets
+    singular: bigquerydataset
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            access:
+              items:
+                properties:
+                  domain:
+                    type: string
+                  groupByEmail:
+                    type: string
+                  role:
+                    type: string
+                  specialGroup:
+                    type: string
+                  userByEmail:
+                    type: string
+                  view:
+                    properties:
+                      datasetId:
+                        type: string
+                      projectId:
+                        type: string
+                      tableId:
+                        type: string
+                    required:
+                    - datasetId
+                    - projectId
+                    - tableId
+                    type: object
+                type: object
+              type: array
+            defaultPartitionExpirationMs:
+              type: integer
+            defaultTableExpirationMs:
+              type: integer
+            deleteContentsOnDestroy:
+              type: boolean
+            description:
+              type: string
+            friendlyName:
+              type: string
+            location:
+              type: string
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTime:
+              type: integer
+            etag:
+              type: string
+            lastModifiedTime:
+              type: integer
+            selfLink:
+              type: string
+          type: object
+      type: object
+  version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    controller-tools.k8s.io: "1.0"
+  name: bigtableclusters.bigtable.cnrm.cloud.google.com
+spec:
+  group: bigtable.cnrm.cloud.google.com
+  names:
+    kind: BigtableCluster
+    plural: bigtableclusters
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            defaultStorageType:
+              description: "The type of storage used by this cluster to serve its
+                parent instance's tables, unless explicitly overridden. \"STORAGE_TYPE_UNSPECIFIED\"
+                -\tThe user did not specify a storage type. \"SSD\" - Flash (SSD)
+                storage should be used. \"HDD\" - Magnetic drive (HDD) storage should
+                be used."
+              type: string
+            instanceRef:
+              description: InstanceRef is a reference to the instance this cluster
+                is associated to.
+              type: object
+            location:
+              description: The location where this cluster's nodes and storage reside.
+              type: string
+            serveNodes:
+              description: The number of nodes allocated to this cluster. More nodes
+                enable higher throughput and more consistent performance.
+              format: int64
+              type: integer
+          required:
+          - instanceRef
+          - location
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observations
+                of a BigtableCluster's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            state:
+              description: "The current state of the cluster.  Possible values: \t\"STATE_NOT_KNOWN\"
+                - State of the cluster could not be determined. \t\"READY\" -\tThe
+                cluster has been created and can serve requests to its tables. \t\"CREATING\"
+                - The cluster is currently being created, cannot serve requests while
+                creating. \t\"RESIZING\" -  The cluster is being resized, can still
+                serve requests while resizing. \t\"DISABLED\" - The cluster has no
+                backing nodes, data tables still exist but no operations can be performed."
+              type: string
+          type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    controller-tools.k8s.io: "1.0"
+  name: bigtableinstances.bigtable.cnrm.cloud.google.com
+spec:
+  group: bigtable.cnrm.cloud.google.com
+  names:
+    kind: BigtableInstance
+    plural: bigtableinstances
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            displayName:
+              description: The descriptive name for this instance as it appears in
+                UIs. Can be changed at any time, but should be kept globally unique
+                to avoid confusion.
+              type: string
+            type:
+              description: "The type of the instance. Defaults to PRODUCTION.  Possible
+                values: \t\"TYPE_UNSPECIFIED\" - Instance type not set. \t\"PRODUCTION\"
+                - For production use, serveNodes must be set. \t\"DEVELOPMENT\" -
+                For development/testing use, serveNodes must not be set."
+              type: string
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observations
+                of a BigtableInstance's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            state:
+              description: "The current state of the instance.  Possible values: \t\"STATE_NOT_KNOWN\"
+                - State of the instance could not be determined. \t\"READY\" -\tThe
+                instance has been created and can serve requests to its tables. \t\"CREATING\"
+                - The instance is currently being created."
+              type: string
+          type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computeaddresses.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    kind: ComputeAddress
+    plural: computeaddresses
+    singular: computeaddress
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            address:
+              type: string
+            addressType:
+              type: string
+            description:
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              type: object
+            networkTier:
+              type: string
+            region:
+              type: string
+            subnetworkRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            labelFingerprint:
+              type: string
+            selfLink:
+              type: string
+            users:
+              items:
+                type: string
+              type: array
+          type: object
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computebackendservices.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    kind: ComputeBackendService
+    plural: computebackendservices
+    singular: computebackendservice
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            affinityCookieTtlSec:
+              type: integer
+            backend:
+              items:
+                properties:
+                  balancingMode:
+                    type: string
+                  capacityScaler:
+                    type: string
+                  description:
+                    type: string
+                  group:
+                    type: string
+                  maxConnections:
+                    type: integer
+                  maxConnectionsPerEndpoint:
+                    type: integer
+                  maxConnectionsPerInstance:
+                    type: integer
+                  maxRate:
+                    type: integer
+                  maxRatePerEndpoint:
+                    type: string
+                  maxRatePerInstance:
+                    type: string
+                  maxUtilization:
+                    type: string
+                type: object
+              type: array
+            cdnPolicy:
+              properties:
+                cacheKeyPolicy:
+                  properties:
+                    includeHost:
+                      type: boolean
+                    includeProtocol:
+                      type: boolean
+                    includeQueryString:
+                      type: boolean
+                    queryStringBlacklist:
+                      items:
+                        type: string
+                      type: array
+                    queryStringWhitelist:
+                      items:
+                        type: string
+                      type: array
+                  type: object
+                signedUrlCacheMaxAgeSec:
+                  type: integer
+              type: object
+            connectionDrainingTimeoutSec:
+              type: integer
+            customRequestHeaders:
+              items:
+                type: string
+              type: array
+            description:
+              type: string
+            enableCdn:
+              type: boolean
+            healthCheckRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            iap:
+              properties:
+                oauth2ClientId:
+                  type: string
+                oauth2ClientSecret:
+                  type: string
+                oauth2ClientSecretSha256:
+                  type: string
+              required:
+              - oauth2ClientId
+              - oauth2ClientSecret
+              type: object
+            loadBalancingScheme:
+              type: string
+            portName:
+              type: string
+            protocol:
+              type: string
+            securityPolicy:
+              type: string
+            sessionAffinity:
+              type: string
+            timeoutSec:
+              type: integer
+          required:
+          - healthCheckRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            fingerprint:
+              type: string
+            selfLink:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computefirewalls.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    kind: ComputeFirewall
+    plural: computefirewalls
+    singular: computefirewall
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            allow:
+              items:
+                properties:
+                  ports:
+                    items:
+                      type: string
+                    type: array
+                  protocol:
+                    type: string
+                required:
+                - protocol
+                type: object
+              type: array
+            deny:
+              items:
+                properties:
+                  ports:
+                    items:
+                      type: string
+                    type: array
+                  protocol:
+                    type: string
+                required:
+                - protocol
+                type: object
+              type: array
+            description:
+              type: string
+            destinationRanges:
+              items:
+                type: string
+              type: array
+            direction:
+              type: string
+            disabled:
+              type: boolean
+            enableLogging:
+              type: boolean
+            networkRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            priority:
+              type: integer
+            sourceRanges:
+              items:
+                type: string
+              type: array
+            sourceServiceAccounts:
+              items:
+                type: string
+              type: array
+            sourceTags:
+              items:
+                type: string
+              type: array
+            targetServiceAccounts:
+              items:
+                type: string
+              type: array
+            targetTags:
+              items:
+                type: string
+              type: array
+          required:
+          - networkRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            selfLink:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computehealthchecks.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    kind: ComputeHealthCheck
+    plural: computehealthchecks
+    singular: computehealthcheck
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            checkIntervalSec:
+              type: integer
+            description:
+              type: string
+            healthyThreshold:
+              type: integer
+            httpHealthCheck:
+              properties:
+                host:
+                  type: string
+                port:
+                  type: integer
+                proxyHeader:
+                  type: string
+                requestPath:
+                  type: string
+                response:
+                  type: string
+              type: object
+            httpsHealthCheck:
+              properties:
+                host:
+                  type: string
+                port:
+                  type: integer
+                proxyHeader:
+                  type: string
+                requestPath:
+                  type: string
+                response:
+                  type: string
+              type: object
+            sslHealthCheck:
+              properties:
+                port:
+                  type: integer
+                proxyHeader:
+                  type: string
+                request:
+                  type: string
+                response:
+                  type: string
+              type: object
+            tcpHealthCheck:
+              properties:
+                port:
+                  type: integer
+                proxyHeader:
+                  type: string
+                request:
+                  type: string
+                response:
+                  type: string
+              type: object
+            timeoutSec:
+              type: integer
+            unhealthyThreshold:
+              type: integer
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            selfLink:
+              type: string
+            type:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computenetworks.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    kind: ComputeNetwork
+    plural: computenetworks
+    singular: computenetwork
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            autoCreateSubnetworks:
+              type: boolean
+            deleteDefaultRoutesOnCreate:
+              type: boolean
+            description:
+              type: string
+            ipv4Range:
+              description: DEPRECATED — Legacy Networks are deprecated and you will
+                no longer be able to create them using this field from Feb 1, 2020
+                onwards.
+              type: string
+            routingMode:
+              type: string
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            gatewayIpv4:
+              type: string
+            selfLink:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computesubnetworks.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    kind: ComputeSubnetwork
+    plural: computesubnetworks
+    singular: computesubnetwork
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            description:
+              type: string
+            enableFlowLogs:
+              type: boolean
+            ipCidrRange:
+              type: string
+            logConfig:
+              properties:
+                aggregationInterval:
+                  type: string
+                flowSampling:
+                  type: string
+                metadata:
+                  type: string
+              type: object
+            networkRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            privateIpGoogleAccess:
+              type: boolean
+            region:
+              type: string
+            secondaryIpRange:
+              items:
+                properties:
+                  ipCidrRange:
+                    type: string
+                  rangeName:
+                    type: string
+                required:
+                - ipCidrRange
+                - rangeName
+                type: object
+              type: array
+          required:
+          - ipCidrRange
+          - networkRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            fingerprint:
+              type: string
+            gatewayAddress:
+              type: string
+            selfLink:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computetargethttpproxies.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    kind: ComputeTargetHTTPProxy
+    plural: computetargethttpproxies
+    singular: computetargethttpproxy
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            description:
+              type: string
+            urlMapRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+          required:
+          - urlMapRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            proxyId:
+              type: integer
+            selfLink:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computeurlmaps.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    kind: ComputeURLMap
+    plural: computeurlmaps
+    singular: computeurlmap
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            defaultServiceRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            description:
+              type: string
+            hostRule:
+              items:
+                properties:
+                  description:
+                    type: string
+                  hosts:
+                    items:
+                      type: string
+                    type: array
+                  pathMatcher:
+                    type: string
+                required:
+                - hosts
+                - pathMatcher
+                type: object
+              type: array
+            pathMatcher:
+              items:
+                properties:
+                  defaultService:
+                    type: string
+                  description:
+                    type: string
+                  name:
+                    type: string
+                  pathRule:
+                    items:
+                      properties:
+                        paths:
+                          items:
+                            type: string
+                          type: array
+                        service:
+                          type: string
+                      required:
+                      - paths
+                      - service
+                      type: object
+                    type: array
+                required:
+                - defaultService
+                - name
+                type: object
+              type: array
+            test:
+              items:
+                properties:
+                  description:
+                    type: string
+                  host:
+                    type: string
+                  path:
+                    type: string
+                  service:
+                    type: string
+                required:
+                - host
+                - path
+                - service
+                type: object
+              type: array
+          required:
+          - defaultServiceRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            fingerprint:
+              type: string
+            mapId:
+              type: integer
+            selfLink:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: containerclusters.container.cnrm.cloud.google.com
+spec:
+  group: container.cnrm.cloud.google.com
+  names:
+    kind: ContainerCluster
+    plural: containerclusters
+    singular: containercluster
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            additionalZones:
+              description: DEPRECATED — Use node_locations instead.
+              items:
+                type: string
+              type: array
+            addonsConfig:
+              properties:
+                cloudrunConfig:
+                  properties:
+                    disabled:
+                      type: boolean
+                  type: object
+                horizontalPodAutoscaling:
+                  properties:
+                    disabled:
+                      type: boolean
+                  type: object
+                httpLoadBalancing:
+                  properties:
+                    disabled:
+                      type: boolean
+                  type: object
+                istioConfig:
+                  properties:
+                    auth:
+                      type: string
+                    disabled:
+                      type: boolean
+                  type: object
+                kubernetesDashboard:
+                  properties:
+                    disabled:
+                      type: boolean
+                  type: object
+                networkPolicyConfig:
+                  properties:
+                    disabled:
+                      type: boolean
+                  type: object
+              type: object
+            authenticatorGroupsConfig:
+              properties:
+                securityGroup:
+                  type: string
+              required:
+              - securityGroup
+              type: object
+            clusterAutoscaling:
+              properties:
+                enabled:
+                  type: boolean
+                resourceLimits:
+                  items:
+                    properties:
+                      maximum:
+                        type: integer
+                      minimum:
+                        type: integer
+                      resourceType:
+                        type: string
+                    required:
+                    - resourceType
+                    type: object
+                  type: array
+              required:
+              - enabled
+              type: object
+            clusterIpv4Cidr:
+              type: string
+            databaseEncryption:
+              properties:
+                keyName:
+                  type: string
+                state:
+                  type: string
+              required:
+              - state
+              type: object
+            defaultMaxPodsPerNode:
+              type: integer
+            description:
+              type: string
+            enableBinaryAuthorization:
+              type: boolean
+            enableIntranodeVisibility:
+              type: boolean
+            enableKubernetesAlpha:
+              type: boolean
+            enableLegacyAbac:
+              type: boolean
+            enableTpu:
+              type: boolean
+            initialNodeCount:
+              type: integer
+            ipAllocationPolicy:
+              properties:
+                clusterIpv4CidrBlock:
+                  type: string
+                clusterSecondaryRangeName:
+                  type: string
+                createSubnetwork:
+                  type: boolean
+                nodeIpv4CidrBlock:
+                  type: string
+                servicesIpv4CidrBlock:
+                  type: string
+                servicesSecondaryRangeName:
+                  type: string
+                subnetworkName:
+                  type: string
+                useIpAliases:
+                  type: boolean
+              type: object
+            location:
+              type: string
+            loggingService:
+              type: string
+            maintenancePolicy:
+              properties:
+                dailyMaintenanceWindow:
+                  properties:
+                    duration:
+                      type: string
+                    startTime:
+                      type: string
+                  required:
+                  - startTime
+                  type: object
+              required:
+              - dailyMaintenanceWindow
+              type: object
+            masterAuth:
+              properties:
+                clientCertificate:
+                  type: string
+                clientCertificateConfig:
+                  properties:
+                    issueClientCertificate:
+                      type: boolean
+                  required:
+                  - issueClientCertificate
+                  type: object
+                clientKey:
+                  type: string
+                clusterCaCertificate:
+                  type: string
+                password:
+                  type: string
+                username:
+                  type: string
+              type: object
+            masterAuthorizedNetworksConfig:
+              properties:
+                cidrBlocks:
+                  items:
+                    properties:
+                      cidrBlock:
+                        type: string
+                      displayName:
+                        type: string
+                    required:
+                    - cidrBlock
+                    type: object
+                  type: array
+              type: object
+            minMasterVersion:
+              type: string
+            monitoringService:
+              type: string
+            network:
+              type: string
+            networkPolicy:
+              properties:
+                enabled:
+                  type: boolean
+                provider:
+                  type: string
+              type: object
+            nodeConfig:
+              properties:
+                diskSizeGb:
+                  type: integer
+                diskType:
+                  type: string
+                guestAccelerator:
+                  items:
+                    properties:
+                      count:
+                        type: integer
+                      type:
+                        type: string
+                    required:
+                    - count
+                    - type
+                    type: object
+                  type: array
+                imageType:
+                  type: string
+                labels:
+                  additionalProperties:
+                    type: string
+                  type: object
+                localSsdCount:
+                  type: integer
+                machineType:
+                  type: string
+                metadata:
+                  additionalProperties:
+                    type: string
+                  type: object
+                minCpuPlatform:
+                  type: string
+                oauthScopes:
+                  items:
+                    type: string
+                  type: array
+                preemptible:
+                  type: boolean
+                sandboxConfig:
+                  properties:
+                    sandboxType:
+                      type: string
+                  required:
+                  - sandboxType
+                  type: object
+                serviceAccount:
+                  type: string
+                tags:
+                  items:
+                    type: string
+                  type: array
+                taint:
+                  items:
+                    properties:
+                      effect:
+                        type: string
+                      key:
+                        type: string
+                      value:
+                        type: string
+                    required:
+                    - effect
+                    - key
+                    - value
+                    type: object
+                  type: array
+                workloadMetadataConfig:
+                  properties:
+                    nodeMetadata:
+                      type: string
+                  required:
+                  - nodeMetadata
+                  type: object
+              type: object
+            nodeLocations:
+              items:
+                type: string
+              type: array
+            nodeVersion:
+              type: string
+            podSecurityPolicyConfig:
+              properties:
+                enabled:
+                  type: boolean
+              required:
+              - enabled
+              type: object
+            privateClusterConfig:
+              properties:
+                enablePrivateEndpoint:
+                  type: boolean
+                enablePrivateNodes:
+                  type: boolean
+                masterIpv4CidrBlock:
+                  type: string
+                privateEndpoint:
+                  type: string
+                publicEndpoint:
+                  type: string
+              type: object
+            region:
+              description: DEPRECATED — Use location instead.
+              type: string
+            removeDefaultNodePool:
+              type: boolean
+            resourceUsageExportConfig:
+              properties:
+                bigqueryDestination:
+                  properties:
+                    datasetId:
+                      type: string
+                  required:
+                  - datasetId
+                  type: object
+                enableNetworkEgressMetering:
+                  type: boolean
+              required:
+              - bigqueryDestination
+              type: object
+            subnetwork:
+              type: string
+            verticalPodAutoscaling:
+              properties:
+                enabled:
+                  type: boolean
+              type: object
+            workloadIdentityConfig:
+              properties:
+                identityNamespace:
+                  type: string
+              required:
+              - identityNamespace
+              type: object
+            zone:
+              description: DEPRECATED — Use location instead.
+              type: string
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            endpoint:
+              type: string
+            instanceGroupUrls:
+              items:
+                type: string
+              type: array
+            masterVersion:
+              type: string
+            servicesIpv4Cidr:
+              type: string
+            tpuIpv4CidrBlock:
+              type: string
+          type: object
+      type: object
+  version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    controller-tools.k8s.io: "1.0"
+  name: iampolicies.iam.cnrm.cloud.google.com
+spec:
+  group: iam.cnrm.cloud.google.com
+  names:
+    kind: IAMPolicy
+    plural: iampolicies
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            bindings:
+              description: Optional. The list of IAM bindings.
+              items:
+                properties:
+                  members:
+                    description: Optional. The list of IAM users to be bound to the
+                      role.
+                    items:
+                      pattern: ^(user|serviceAccount|group|domain):.+$
+                      type: string
+                    pattern: ^(user|serviceAccount|group|domain):.+$
+                    type: array
+                  role:
+                    description: Required. The role to bind the users to.
+                    pattern: ^roles/[\w\.]+$
+                    type: string
+                required:
+                - role
+                type: object
+              type: array
+            resourceRef:
+              description: Required. The GCP resource to set the IAM policy on (e.g.
+                organization, project...)
+              type: object
+          required:
+          - resourceRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observations
+                of the IAM policy's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+          type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: iamserviceaccountkeys.iam.cnrm.cloud.google.com
+spec:
+  group: iam.cnrm.cloud.google.com
+  names:
+    kind: IAMServiceAccountKey
+    plural: iamserviceaccountkeys
+    singular: iamserviceaccountkey
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            keyAlgorithm:
+              type: string
+            pgpKey:
+              type: string
+            privateKeyType:
+              type: string
+            publicKeyType:
+              type: string
+            serviceAccountRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+          required:
+          - serviceAccountRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            name:
+              type: string
+            privateKey:
+              type: string
+            privateKeyEncrypted:
+              type: string
+            privateKeyFingerprint:
+              type: string
+            publicKey:
+              type: string
+            validAfter:
+              type: string
+            validBefore:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: iamserviceaccounts.iam.cnrm.cloud.google.com
+spec:
+  group: iam.cnrm.cloud.google.com
+  names:
+    kind: IAMServiceAccount
+    plural: iamserviceaccounts
+    singular: iamserviceaccount
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            displayName:
+              type: string
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            email:
+              type: string
+            name:
+              type: string
+            uniqueId:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: kmskeyrings.kms.cnrm.cloud.google.com
+spec:
+  group: kms.cnrm.cloud.google.com
+  names:
+    kind: KMSKeyRing
+    plural: kmskeyrings
+    singular: kmskeyring
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            location:
+              type: string
+          required:
+          - location
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            selfLink:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: pubsubsubscriptions.pubsub.cnrm.cloud.google.com
+spec:
+  group: pubsub.cnrm.cloud.google.com
+  names:
+    kind: PubSubSubscription
+    plural: pubsubsubscriptions
+    singular: pubsubsubscription
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            ackDeadlineSeconds:
+              type: integer
+            expirationPolicy:
+              properties:
+                ttl:
+                  type: string
+              type: object
+            messageRetentionDuration:
+              type: string
+            pushConfig:
+              properties:
+                attributes:
+                  additionalProperties:
+                    type: string
+                  type: object
+                pushEndpoint:
+                  type: string
+              required:
+              - pushEndpoint
+              type: object
+            retainAckedMessages:
+              type: boolean
+            topicRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+          required:
+          - topicRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            path:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: pubsubtopics.pubsub.cnrm.cloud.google.com
+spec:
+  group: pubsub.cnrm.cloud.google.com
+  names:
+    kind: PubSubTopic
+    plural: pubsubtopics
+    singular: pubsubtopic
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            kmsKeyName:
+              type: string
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+          type: object
+      type: object
+  version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: redisinstances.redis.cnrm.cloud.google.com
+spec:
+  group: redis.cnrm.cloud.google.com
+  names:
+    kind: RedisInstance
+    plural: redisinstances
+    singular: redisinstance
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            alternativeLocationId:
+              type: string
+            authorizedNetwork:
+              type: string
+            displayName:
+              type: string
+            locationId:
+              type: string
+            memorySizeGb:
+              type: integer
+            redisConfigs:
+              additionalProperties:
+                type: string
+              type: object
+            redisVersion:
+              type: string
+            region:
+              type: string
+            reservedIpRange:
+              type: string
+            tier:
+              type: string
+          required:
+          - memorySizeGb
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            createTime:
+              type: string
+            currentLocationId:
+              type: string
+            host:
+              type: string
+            port:
+              type: integer
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    controller-tools.k8s.io: "1.0"
+  name: servicemappings.core.cnrm.cloud.google.com
+spec:
+  group: core.cnrm.cloud.google.com
+  names:
+    kind: ServiceMapping
+    plural: servicemappings
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: ServiceMappingSpec defines the aspects common to all resources
+            of a particular service being mapped from the Terraform provider to Kubernetes
+            Resource Model (KRM).
+          properties:
+            name:
+              description: Name is the name of the service being mapped (e.g. Spanner,
+                PubSub). This is used for the construction of the generated CRDs'
+                API group and kind.
+              type: string
+            resources:
+              description: Resources is a list of configurations specifying how to
+                map a specific resource from the Terraform provider to KRM.
+              items:
+                properties:
+                  idTemplate:
+                    description: IDTemplate defines the format in which the ID fed
+                      into the TF resource's importer should look. Fields may be sourced
+                      from the KRM resource by using the `{{foo}}` syntax. (e.g. {{project}}/{{location}}/{{name}}.
+                      If SkipImport is true, this must be specified, and its expanded
+                      form will be directly used as the TF resource's `id` field.
+                    type: string
+                  ignoredFields:
+                    description: IgnoredFields is a list of fields that should be
+                      dropped from the underlying Terraform resource.
+                    items:
+                      type: string
+                    type: array
+                  kind:
+                    description: Kind is the Kubernetes kind you wish the resource
+                      to have.
+                    type: string
+                  metadataMapping:
+                    description: MetadataMapping determines how to map Kubernetes
+                      metadata fields to the Terraform resource's configuration.
+                    properties:
+                      labels:
+                        description: Labels is a JSONPath to the field in the TF resource
+                          where the KRM "metadata.labels" field will be mapped to.
+                          By default, this is mapped to the "labels" field, if that
+                          field is found in the TF resource schema.
+                        type: string
+                      name:
+                        description: Name is a JSONPath to the field in the TF resource
+                          where the KRM "metadata.name" field will be mapped to. By
+                          default, this is mapped to the "name" field, if that field
+                          is found in the TF resource schema.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the Terraform name of the resource (e.g.
+                      google_spanner_instance)
+                    type: string
+                  resourceReferences:
+                    description: ResourceReferences configures the mapping of fields
+                      in the Terraform resource that implicitly define references
+                      to other GCP resources into explicit Kubernetes-style references
+                      of type ObjectReference.
+                    items:
+                      properties:
+                        key:
+                          description: 'Key is the field name that will be exposed
+                            through the KRM resource''s spec. It should follow the
+                            Kubernetes reference naming semantics:   - For individual
+                            references, `fooRef`, where foo is some describer of what     is
+                            being referenced (e.g. instanceRef, healthCheckRef)   -
+                            For lists, `foos`, where foo is some describer of what
+                            is being referenced     (e.g. healthChecks, addresses)'
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource
+                            being referenced. If none is set, the ObjectReference
+                            specified by the user must set the kind. The API group
+                            and version are assumed to match the referencing resource's.
+                          type: string
+                        parent:
+                          description: Parent specifies whether the referenced resource
+                            is a parent. If the parent is successfully deleted, this
+                            resource may be deleted without any call to the underlying
+                            API. If a reference is a parent, it must also be marked
+                            as required. Only one parent may be present.
+                          type: boolean
+                        required:
+                          description: Required is whether this reference is required
+                            by the CRD's validation schema.
+                          type: boolean
+                        targetField:
+                          description: 'TargetField is the field of the referenced
+                            resource that will be extracted and set as the value of
+                            the reference''s TFField. Currently, this supports two
+                            values:   - "" (blank) implies the resource''s `metadata.name`   -
+                            "selfLink" implies the resource''s GCP selflink.'
+                          type: string
+                        tfField:
+                          description: TFField is the name of the field in the underlying
+                            Terraform provider that is the implicit reference.
+                          type: string
+                      required:
+                      - key
+                      - tfField
+                      type: object
+                    type: array
+                  serverGeneratedIDField:
+                    description: ServerGeneratedIDField is the field in the resource's
+                      status that corresponds to the server-generated resource ID.
+                      If unset, it's assumed the resource ID is specified by the user.
+                      Resources with this set do not support acquisition.
+                    type: string
+                  skipImport:
+                    description: SkipImport skips the import step when fetching the
+                      live state of the underlying resource. If specified, IDTemplate
+                      must also be specified, and its expanded form will be used as
+                      the TF resource's `id` field.
+                    type: boolean
+                required:
+                - name
+                - kind
+                type: object
+              type: array
+            version:
+              description: Version is the API version for all the resource CRDs being
+                generated.
+              type: string
+          required:
+          - name
+          - version
+          - resources
+          type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: spannerinstances.spanner.cnrm.cloud.google.com
+spec:
+  group: spanner.cnrm.cloud.google.com
+  names:
+    kind: SpannerInstance
+    plural: spannerinstances
+    singular: spannerinstance
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            config:
+              type: string
+            displayName:
+              type: string
+            numNodes:
+              type: integer
+          required:
+          - config
+          - displayName
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            state:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: sqldatabases.sql.cnrm.cloud.google.com
+spec:
+  group: sql.cnrm.cloud.google.com
+  names:
+    kind: SQLDatabase
+    plural: sqldatabases
+    singular: sqldatabase
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            charset:
+              type: string
+            collation:
+              type: string
+            instanceRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+          required:
+          - instanceRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            selfLink:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: sqlinstances.sql.cnrm.cloud.google.com
+spec:
+  group: sql.cnrm.cloud.google.com
+  names:
+    kind: SQLInstance
+    plural: sqlinstances
+    singular: sqlinstance
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            databaseVersion:
+              type: string
+            masterInstanceRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            region:
+              type: string
+            replicaConfiguration:
+              properties:
+                caCertificate:
+                  type: string
+                clientCertificate:
+                  type: string
+                clientKey:
+                  type: string
+                connectRetryInterval:
+                  type: integer
+                dumpFilePath:
+                  type: string
+                failoverTarget:
+                  type: boolean
+                masterHeartbeatPeriod:
+                  type: integer
+                password:
+                  type: string
+                sslCipher:
+                  type: string
+                username:
+                  type: string
+                verifyServerCertificate:
+                  type: boolean
+              type: object
+            settings:
+              properties:
+                activationPolicy:
+                  type: string
+                authorizedGaeApplications:
+                  items:
+                    type: string
+                  type: array
+                availabilityType:
+                  type: string
+                backupConfiguration:
+                  properties:
+                    binaryLogEnabled:
+                      type: boolean
+                    enabled:
+                      type: boolean
+                    startTime:
+                      type: string
+                  type: object
+                crashSafeReplication:
+                  type: boolean
+                databaseFlags:
+                  items:
+                    properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
+                    type: object
+                  type: array
+                diskAutoresize:
+                  type: boolean
+                diskSize:
+                  type: integer
+                diskType:
+                  type: string
+                ipConfiguration:
+                  properties:
+                    authorizedNetworks:
+                      items:
+                        properties:
+                          expirationTime:
+                            type: string
+                          name:
+                            type: string
+                          value:
+                            type: string
+                        type: object
+                      type: array
+                    ipv4Enabled:
+                      type: boolean
+                    privateNetwork:
+                      type: string
+                    requireSsl:
+                      type: boolean
+                  type: object
+                locationPreference:
+                  properties:
+                    followGaeApplication:
+                      type: string
+                    zone:
+                      type: string
+                  type: object
+                maintenanceWindow:
+                  properties:
+                    day:
+                      type: integer
+                    hour:
+                      type: integer
+                    updateTrack:
+                      type: string
+                  type: object
+                pricingPlan:
+                  type: string
+                replicationType:
+                  type: string
+                tier:
+                  type: string
+              required:
+              - tier
+              type: object
+          required:
+          - settings
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            connectionName:
+              type: string
+            firstIpAddress:
+              type: string
+            ipAddress:
+              items:
+                properties:
+                  ipAddress:
+                    type: string
+                  timeToRetire:
+                    type: string
+                  type:
+                    type: string
+                type: object
+              type: array
+            privateIpAddress:
+              type: string
+            publicIpAddress:
+              type: string
+            selfLink:
+              type: string
+            serverCaCert:
+              properties:
+                cert:
+                  type: string
+                commonName:
+                  type: string
+                createTime:
+                  type: string
+                expirationTime:
+                  type: string
+                sha1Fingerprint:
+                  type: string
+              type: object
+            serviceAccountEmailAddress:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: sqlusers.sql.cnrm.cloud.google.com
+spec:
+  group: sql.cnrm.cloud.google.com
+  names:
+    kind: SQLUser
+    plural: sqlusers
+    singular: sqluser
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            host:
+              type: string
+            instanceRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            password:
+              type: string
+          required:
+          - instanceRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cnrm.cloud.google.com/collection: bucketAccessControls
+    cnrm.cloud.google.com/service: storage-v1
+    cnrm.cloud.google.com/type-provider: cnrm-system/storage
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+  name: storagebucketaccesscontrols.storage.cnrm.cloud.google.com
+spec:
+  group: storage.cnrm.cloud.google.com
+  names:
+    kind: StorageBucketAccessControl
+    plural: storagebucketaccesscontrols
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            bucketRef:
+              description: bucketRef is a reference to the StorageBucket resource
+                this StorageBucketAccessControl is associated with.
+              properties:
+                name:
+                  description: The name of the associated bucket.
+              required:
+              - name
+              type: object
+            entity:
+              description: "The entity holding the permission, in one of the following
+                forms: \n- user-userId \n- user-email \n- group-groupId \n- group-email
+                \n- domain-domain \n- project-team-projectId \n- allUsers \n- allAuthenticatedUsers
+                Examples: \n- The user liz@example.com would be user-liz@example.com.
+                \n- The group example@googlegroups.com would be group-example@googlegroups.com.
+                \n- To refer to all members of the Google Apps for Business domain
+                example.com, the entity would be domain-example.com."
+              type: string
+            role:
+              description: The access permission for the entity.
+              type: string
+          required:
+          - bucketRef
+          - entity
+          - role
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            domain:
+              description: The domain associated with the entity, if any.
+              type: string
+            email:
+              description: The email address associated with the entity, if any.
+              type: string
+            entityId:
+              description: The ID for the entity, if any.
+              type: string
+            id:
+              description: The ID of the access-control entry.
+              type: string
+            projectTeam:
+              description: The project team associated with the entity, if any.
+              properties:
+                projectNumber:
+                  description: The project number.
+                  type: string
+                team:
+                  description: The team.
+                  type: string
+              type: object
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: storagebuckets.storage.cnrm.cloud.google.com
+spec:
+  group: storage.cnrm.cloud.google.com
+  names:
+    kind: StorageBucket
+    plural: storagebuckets
+    singular: storagebucket
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            bucketPolicyOnly:
+              type: boolean
+            cors:
+              items:
+                properties:
+                  maxAgeSeconds:
+                    type: integer
+                  method:
+                    items:
+                      type: string
+                    type: array
+                  origin:
+                    items:
+                      type: string
+                    type: array
+                  responseHeader:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              type: array
+            encryption:
+              properties:
+                defaultKmsKeyName:
+                  type: string
+              required:
+              - defaultKmsKeyName
+              type: object
+            forceDestroy:
+              type: boolean
+            lifecycleRule:
+              items:
+                properties:
+                  action:
+                    properties:
+                      storageClass:
+                        type: string
+                      type:
+                        type: string
+                    required:
+                    - type
+                    type: object
+                  condition:
+                    properties:
+                      age:
+                        type: integer
+                      createdBefore:
+                        type: string
+                      isLive:
+                        description: DEPRECATED — Please use `with_state` instead.
+                        type: boolean
+                      matchesStorageClass:
+                        items:
+                          type: string
+                        type: array
+                      numNewerVersions:
+                        type: integer
+                      withState:
+                        type: string
+                    type: object
+                required:
+                - action
+                - condition
+                type: object
+              type: array
+            location:
+              type: string
+            logging:
+              properties:
+                logBucket:
+                  type: string
+                logObjectPrefix:
+                  type: string
+              required:
+              - logBucket
+              type: object
+            requesterPays:
+              type: boolean
+            storageClass:
+              type: string
+            versioning:
+              properties:
+                enabled:
+                  type: boolean
+              type: object
+            website:
+              items:
+                properties:
+                  mainPageSuffix:
+                    type: string
+                  notFoundPage:
+                    type: string
+                type: object
+              type: array
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            selfLink:
+              type: string
+            url:
+              type: string
+          type: object
+      type: object
+  version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: storagedefaultobjectaccesscontrols.storage.cnrm.cloud.google.com
+spec:
+  group: storage.cnrm.cloud.google.com
+  names:
+    kind: StorageDefaultObjectAccessControl
+    plural: storagedefaultobjectaccesscontrols
+    singular: storagedefaultobjectaccesscontrol
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            bucketRef:
+              properties:
+                kind:
+                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                  type: string
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            entity:
+              type: string
+            object:
+              type: string
+            role:
+              type: string
+          required:
+          - bucketRef
+          - entity
+          - role
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            domain:
+              type: string
+            email:
+              type: string
+            entityId:
+              type: string
+            generation:
+              type: integer
+            projectTeam:
+              properties:
+                projectNumber:
+                  type: string
+                team:
+                  type: string
+              type: object
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

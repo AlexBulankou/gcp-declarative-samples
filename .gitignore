@@ -13,5 +13,5 @@
 
 # Repo specific files
 key*json
-.DS_Store
+*.DS_Store
 custom-settings.md
