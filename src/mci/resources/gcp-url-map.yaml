@@ -1,0 +1,8 @@
+apiVersion: compute.cnrm.cloud.google.com/v1alpha1
+kind: ComputeURLMap
+metadata:
+  name: node-app-url-map
+spec:
+  defaultServiceRef:
+    name: node-app-backend-service
+    kind: ComputeBackendService
