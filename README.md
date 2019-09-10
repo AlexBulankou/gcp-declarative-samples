@@ -166,7 +166,16 @@ gcloud compute instance-groups managed set-named-ports  ig-na  --named-ports por
     kubectl apply -f src/mci/resources/gcp-backend-service.yaml
     ```
 
-1. Now create firewall rule using gcloud:
+1. Acquire default network and create firewall rule:
+
+```bash
+    kubectl apply -f src/mci/resources/gcp-default-network.yaml
+    kubectl apply -f src/mci/resources/gcp-compute-firewall.yaml
+```
+
+
+
+BTW, to create firewall rule using gcloud:
     ```bash
     gcloud compute firewall-rules create rule-31028  --allow=tcp:31028
     ```
