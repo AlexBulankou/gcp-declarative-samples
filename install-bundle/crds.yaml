@@ -2526,9 +2526,11 @@ spec:
                         targetField:
                           description: 'TargetField is the field of the referenced
                             resource that will be extracted and set as the value of
-                            the reference''s TFField. Currently, this supports two
-                            values:   - "" (blank) implies the resource''s `metadata.name`   -
-                            "selfLink" implies the resource''s GCP selflink.'
+                            the reference''s TFField. Currently, this supports the
+                            following values:   - "" (blank) implies the resource''s
+                            `metadata.name`   - "selfLink" implies the resource''s
+                            GCP selflink.   - "email" implies the email address of
+                            the service account.'
                           type: string
                         tfField:
                           description: TFField is the name of the field in the underlying

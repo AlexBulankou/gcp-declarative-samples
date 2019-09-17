@@ -1,0 +1,15 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: KCCAllowedResourceTypes
+metadata:
+  name: only-allowed-gcp-types
+spec:
+  #match:
+    #kinds:
+    #  - apiGroups: [""]
+    #    kinds: ["Pod"]
+    #namespaces:
+    #  - "production"
+  parameters:
+    types:
+      - "PubSubTopic"
+      - "ComputeNetwork"

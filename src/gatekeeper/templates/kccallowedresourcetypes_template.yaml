@@ -1,0 +1,33 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: kccallowedresourcetypes
+spec:
+  crd:
+    spec:
+      names:
+        kind: KCCAllowedResourceTypes
+        listKind: KCCAllowedResourceTypesList
+        plural: KCCAllowedResourceTypes
+        singular: KCCAllowedResourceTypes
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          properties:
+            types:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package kccallowedresourcetypes
+
+        violation[{"msg": msg}] {
+          type := input.review.object.kind
+          apiVersion := input.review.object.apiVersion
+          isKccType := contains(apiVersion, "cnrm.cloud.google.com")
+          typeSatisfied := [good | allowedType = input.parameters.types[_] ; good = type == allowedType]
+          isKccType; not any(typeSatisfied)
+          msg := sprintf("using type <%v> is not allowed, allowed Config Connector types are %v", [type, input.parameters.types])
+        }

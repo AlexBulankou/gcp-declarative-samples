@@ -1,0 +1,38 @@
+# Config Connector and Gatekeeper Integration
+
+This sample demonstrates how you create policies to verify Config Connector objects using Gatekeeper.
+
+1. Replace with your project name.
+
+    ```bash
+    LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[PROJECT_ID\]/your_project_id/g' {} \;
+    LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[BILLING_ACCOUNT\]/your_billing_account/g' {} \;
+    ```
+
+1. Initialize project and cluster:
+
+    ```bash
+    bash src/provision.sh
+    ```
+
+1. Intall Gatekeeper library:
+    ```bash
+    kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml
+    ```
+
+1. Install constraint template to `KCCAllowedResourceTypes`. It allows to specify what GCP types are allowed:
+    ```bash
+    kubectl apply -f src/gatekeeper/templates/kccallowedresourcetypes_template.yaml
+    ```
+
+1. Install constraint that only allows `PubSubTopic` and `ComputeNetwork`:
+    ```bash
+    kubectl apply -f src/gatekeeper/constraints/only-allowed-gcp-types.yaml
+    ```
+
+1. Try creating different objects to verify:
+
+    - not allowed: src/gatekeeper/resources/bad-service-account.yaml
+    - allowed: src/gatekeeper/resources/good-compute-network.yaml
+    - allowed: src/gatekeeper/resources/good-pubsubtopic.yaml
+    - not checked: src/gatekeeper/resources/not-checked-pod.yaml
