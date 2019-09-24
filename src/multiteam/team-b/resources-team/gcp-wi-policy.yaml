@@ -1,0 +1,15 @@
+apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+kind: IAMPolicy
+metadata:
+  name: sa-wi-policty-team-b
+  namespace: team-b
+spec:
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+    kind: IAMServiceAccount
+    name: sa-bucket-team-b
+    namespace: team-b
+  bindings:
+    - role: roles/iam.workloadIdentityUser
+      members:
+        - serviceAccount:[PROJECT_ID].svc.id.goog[team-b/ksa-bucket-team-b]

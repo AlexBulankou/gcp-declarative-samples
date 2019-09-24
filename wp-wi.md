@@ -8,19 +8,7 @@ This extends the previous example by enabling Workload Identity integration. Thi
 
 In this sample there's no longer needed to mount keys in the [pod configuration](src/wp-wi/resources/stateful-set.yaml) as SQL client permissions are propagated through Kubernetes service account. Note: don't forget serviceAccountName field in pod config.
 
-1. Replace with your project name.
-
-    ```bash
-    LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[PROJECT_ID\]/your_project_id/g' {} \;
-    LC_CTYPE=C && find ./src/ -type f -exec sed -i '' 's/\[BILLING_ACCOUNT\]/your_billing_account/g' {} \;
-    ```
-
-1. Initialize project and cluster:
-
-    ```bash
-    bash src/provision.sh
-    ```
-
+1. [Provision project and cluster](/provision.md)
 1. Deploy:
 
     ```bash

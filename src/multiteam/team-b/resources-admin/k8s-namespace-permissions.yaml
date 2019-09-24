@@ -1,0 +1,27 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: team-b-role-binding
+  namespace: team-b
+subjects:
+- kind: User
+  name: team-b-user
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: team-b-cnrm-manager-role-binding
+  namespace: team-b
+subjects:
+- kind: User
+  name: team-b-user
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: cnrm-manager-role
+  apiGroup: rbac.authorization.k8s.io

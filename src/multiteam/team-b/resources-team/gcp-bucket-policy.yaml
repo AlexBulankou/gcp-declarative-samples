@@ -1,0 +1,15 @@
+apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+kind: IAMPolicy
+metadata:
+  name: bucket-policy-team-b
+  namespace: team-b
+spec:
+  resourceRef:
+    apiVersion: storage.cnrm.cloud.google.com/v1alpha2
+    kind: StorageBucket
+    name: [PROJECT_ID]-team-b-bucket
+    namespace: team-b
+  bindings:
+    - role: roles/storage.admin
+      members:
+        - serviceAccount:sa-bucket-team-b@[PROJECT_ID]-team-b.iam.gserviceaccount.com
