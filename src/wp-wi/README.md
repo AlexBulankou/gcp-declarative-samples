@@ -1,14 +1,14 @@
 # WordPress on K8s + GCP CloudSQL + Workload Identity Setup
 
 This extends the previous example by enabling Workload Identity integration. This requires 4 additional resources:
-* [Google service account (GSA)](resources/sql-service-account.yaml)
+* [Google service account (GSA)](resources/gcp-sql-service-account.yaml)
 * [Sqlclient permission for GSA](deploy.sh). Currently this step is done via gcloud command, however soon it will be possible to configure individual binding declaratively.
 * [Kubernetes service account (KSA)](resources/k8s-service-account.yaml) annotated with GSA
-* [Workload identity permission for GSA](resources/wi-policy.yaml) that links GSA and KSA
+* [Workload identity permission for GSA](resources/gcp-wi-policy.yaml) that links GSA and KSA
 
 In this sample there's no longer needed to mount keys in the [pod configuration](resources/stateful-set.yaml) as SQL client permissions are propagated through Kubernetes service account. Note: don't forget serviceAccountName field in pod config.
 
-1. [Provision project and cluster](../provision.md)
+1. [Provision project, cluster and Config Connector](../../provision.md)
 1. Deploy:
 
     ```bash

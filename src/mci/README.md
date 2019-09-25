@@ -1,6 +1,6 @@
 # Multi-Cluster Ingress
 
-1. [Provision project and cluster](../provision.md)
+1. [Provision project, cluster and Config Connector](../../provision.md)
 1. Deploy clusters and node pools for them:
 
     ```bash

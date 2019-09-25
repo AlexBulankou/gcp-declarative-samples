@@ -4,7 +4,7 @@ This example shows how you can deploy Wordpress to your Kubernetes cluster, back
 
 One limitation of Config Connector today is that sql_user resource is referencing credentials in clear text. Once secretRef's are supported for sensitive fields, it will be possible to reference database credentials from Kubernetes secrets.
 
-1. [Provision project and cluster](../provision.md)
+1. [Provision project, cluster and Config Connector](../../provision.md)
 1. Deploy:
 
     ```bash

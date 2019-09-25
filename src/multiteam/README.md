@@ -5,7 +5,7 @@ We'll provision multiple Kubernetes namespaces, namespace per team. For each nam
 * K8s service account (KSA) linked to Google Service Account (GSA) on GCP side using Workload Identity
 * To illustrate this example, a pod communicating to Google Storage Bucket in GCP project
 
-1. [Provision project and cluster with Config Connector enamed](/provision.md)
+1. [Provision project, cluster and Config Connector](../../provision.md)
 1. Create projects team-a and team-b dedicated for two teams. Give permissions to Config Connector to manage resources in these projects. You can aso uncomment part of the script to create groups and give them permissions to projects:
 
     ```bash
