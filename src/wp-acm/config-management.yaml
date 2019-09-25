@@ -1,0 +1,11 @@
+apiVersion: addons.sigs.k8s.io/v1alpha1
+kind: ConfigManagement
+metadata:
+  name: config-management
+spec:
+  clusterName: cluster-1
+  git:
+    syncRepo: git@github.com:[your_user_name]/gcp-kcc-samples.git
+    syncBranch: master
+    secretType: none
+    policyDir: "src/wp-acm/acm-root"

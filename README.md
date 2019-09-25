@@ -4,6 +4,7 @@ This repo contains a collection of infrastructure examples using [Kubernetes Con
 
 * [WordPress on K8s + GCP CloudSQL Setup](src/wp-simple/README.md)
 * [WordPress on K8s + GCP CloudSQL + Workload Identity Setup](src/wp-wi/README.md)
+* [WordPress on K8s + GCP Cloud SQL + WI + Gatekeeper + ACM](src/wp-acm/README.md)
 * [Multi-cluster ingress](src/mci/README.md)
 * [Gatekeeper integration](src/gatekeeper/README.md)
 * [Multiple Team Namespace-Project Configuration](src/multiteam/README.md)
