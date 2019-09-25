@@ -1,25 +1,25 @@
 # WordPress on K8s + GCP CloudSQL + Workload Identity Setup
 
 This extends the previous example by enabling Workload Identity integration. This requires 4 additional resources:
-* [Google service account (GSA)](src/wp-wi/resources/sql-service-account.yaml)
-* [Sqlclient permission for GSA](src/wp-wi/deploy.sh). Currently this step is done via gcloud command, however soon it will be possible to configure individual binding declaratively.
-* [Kubernetes service account (KSA)](src/wp-wi/resources/k8s-service-account.yaml) annotated with GSA
-* [Workload identity permission for GSA](src/wp-wi/resources/wi-policy.yaml) that links GSA and KSA
+* [Google service account (GSA)](resources/sql-service-account.yaml)
+* [Sqlclient permission for GSA](deploy.sh). Currently this step is done via gcloud command, however soon it will be possible to configure individual binding declaratively.
+* [Kubernetes service account (KSA)](resources/k8s-service-account.yaml) annotated with GSA
+* [Workload identity permission for GSA](resources/wi-policy.yaml) that links GSA and KSA
 
-In this sample there's no longer needed to mount keys in the [pod configuration](src/wp-wi/resources/stateful-set.yaml) as SQL client permissions are propagated through Kubernetes service account. Note: don't forget serviceAccountName field in pod config.
+In this sample there's no longer needed to mount keys in the [pod configuration](resources/stateful-set.yaml) as SQL client permissions are propagated through Kubernetes service account. Note: don't forget serviceAccountName field in pod config.
 
-1. [Provision project and cluster](/provision.md)
+1. [Provision project and cluster](../provision.md)
 1. Deploy:
 
     ```bash
-    kubectl apply -f src/wp-wi/resources/
+    kubectl apply -f resources/
     ```
 
 1. Enable SQL account binding after account is created. This step will be replaced with declarative config:
 
     ```bash
     kubectl wait --for=condition=Ready iamserviceaccount/sql-wp-sa --timeout=30m
-    bash src/wp-wi/deploy.sh
+    bash deploy.sh
     ```
 
 1. Wait for sql instance to be ready
@@ -43,7 +43,7 @@ kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/
 
 ## Clean up:
 ``` bash
-kubectl delete -f src/wp-wi/resources/
+kubectl delete -f resources/
 kubectl delete pvc wordpress-volume-2-wordpress-0
-bash src/wp-wi/undeploy.sh
+bash undeploy.sh
 ```

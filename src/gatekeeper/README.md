@@ -12,7 +12,7 @@ This sample demonstrates how you create policies to verify Config Connector obje
 1. Initialize project and cluster:
 
     ```bash
-    bash src/provision.sh
+    bash ../provision.sh
     ```
 
 1. Intall Gatekeeper library:
@@ -22,17 +22,17 @@ This sample demonstrates how you create policies to verify Config Connector obje
 
 1. Install constraint template to `KCCAllowedResourceTypes`. It allows to specify what GCP types are allowed:
     ```bash
-    kubectl apply -f src/gatekeeper/templates/kccallowedresourcetypes_template.yaml
+    kubectl apply -f templates/kccallowedresourcetypes_template.yaml
     ```
 
 1. Install constraint that only allows `PubSubTopic` and `ComputeNetwork`:
     ```bash
-    kubectl apply -f src/gatekeeper/constraints/only-allowed-gcp-types.yaml
+    kubectl apply -f constraints/only-allowed-gcp-types.yaml
     ```
 
 1. Try creating different objects to verify:
 
-    - not allowed: src/gatekeeper/resources/bad-service-account.yaml
-    - allowed: src/gatekeeper/resources/good-compute-network.yaml
-    - allowed: src/gatekeeper/resources/good-pubsubtopic.yaml
-    - not checked: src/gatekeeper/resources/not-checked-pod.yaml
+    - not allowed: resources/bad-service-account.yaml
+    - allowed: resources/good-compute-network.yaml
+    - allowed: resources/good-pubsubtopic.yaml
+    - not checked: resources/not-checked-pod.yaml

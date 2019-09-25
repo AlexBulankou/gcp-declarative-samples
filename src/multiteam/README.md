@@ -9,25 +9,25 @@ We'll provision multiple Kubernetes namespaces, namespace per team. For each nam
 1. Create projects team-a and team-b dedicated for two teams. Give permissions to Config Connector to manage resources in these projects. You can aso uncomment part of the script to create groups and give them permissions to projects:
 
     ```bash
-    bash src/multiteam/provision-projects.sh
+    bash ../provision-projects.sh
     ```
 
 1. Create K8s namespace dedicated to team-a resources:
 
     ```bash
-    kubectl apply -f src/multiteam/team-a/resources-admin/k8s-namespace.yaml
+    kubectl apply -f team-a/resources-admin/k8s-namespace.yaml
     ```
 
 1. Configure permissions for this team-a-user to edit standard resources in this namespace and also give them cnrm-manager role to edit Config Connector resoruces, such as buckets.
 
     ```bash
-    kubectl apply -f src/multiteam/team-a/resources-admin/k8s-namespace-permissions.yaml
+    kubectl apply -f team-a/resources-admin/k8s-namespace-permissions.yaml
     ```
 1. Repeat previous two steps for team-b-user:
 
     ```bash
-    kubectl apply -f src/multiteam/team-b/resources-admin/k8s-namespace.yaml
-    kubectl apply -f src/multiteam/team-b/resources-admin/k8s-namespace-permissions.yaml
+    kubectl apply -f team-b/resources-admin/k8s-namespace.yaml
+    kubectl apply -f team-b/resources-admin/k8s-namespace-permissions.yaml
     ```
 
 1. Verify that team-a-user can create pods or sqlinstances in team-a namespace, but cannot do this in team-b or default namespace:
@@ -47,7 +47,7 @@ We'll provision multiple Kubernetes namespaces, namespace per team. For each nam
     ```
 1. Create `team-a` resources, impersonating team member:
     ```bash
-    kubectl apply -f src/multiteam/team-a/resources-team --as=team-a-user
+    kubectl apply -f team-a/resources-team --as=team-a-user
     ```
 1. Verify that service account credentials are propagating automatically. Run a pod with `google/cloud-sdk` image:
     ```
@@ -72,5 +72,5 @@ We'll provision multiple Kubernetes namespaces, namespace per team. For each nam
 1. Replicate the same configuration for team-b:
 
     ```bash
-    kubectl apply -f src/multiteam/team-b/resources-team --as=team-b-user
+    kubectl apply -f team-b/resources-team --as=team-b-user
     ```

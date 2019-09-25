@@ -1,10 +1,10 @@
 # Multi-Cluster Ingress
 
-1. [Provision project and cluster](/provision.md)
+1. [Provision project and cluster](../provision.md)
 1. Deploy clusters and node pools for them:
 
     ```bash
-    kubectl apply -f src/mci/resources/gcp-clusters.yaml
+    kubectl apply -f resources/gcp-clusters.yaml
     ```
 
 This deployed 2 clusters. Now let's deploy node pools for them
@@ -38,14 +38,14 @@ gcloud compute instance-groups managed delete $NA_GROUP_NAME --zone=us-central1-
 
 ```bash
 gcloud container clusters get-credentials cluster-na --zone=us-central1-a
-kubectl apply -f src/mci/na/
+kubectl apply -f na/
 ```
 
 1. Switch the context to Europe cluster and create a pod and a service:
 
 ```bash
 gcloud container clusters get-credentials cluster-eu --zone=europe-west2-a
-kubectl apply -f src/mci/eu/
+kubectl apply -f eu/
 ```
 1. Set named port on the instance groups:
 
@@ -58,14 +58,14 @@ gcloud compute instance-groups managed set-named-ports  ig-na  --named-ports por
 
     ```bash
     gcloud container clusters get-credentials cluster-1 --zone=us-central1-b
-    kubectl apply -f src/mci/resources/gcp-backend-service.yaml
+    kubectl apply -f resources/gcp-backend-service.yaml
     ```
 
 1. Acquire default network and create firewall rule:
 
 ```bash
-    kubectl apply -f src/mci/resources/gcp-default-network.yaml
-    kubectl apply -f src/mci/resources/gcp-compute-firewall.yaml
+    kubectl apply -f resources/gcp-default-network.yaml
+    kubectl apply -f resources/gcp-compute-firewall.yaml
 ```
 
 
@@ -79,7 +79,7 @@ BTW, to create firewall rule using gcloud:
 1. Create target http proxy and url map:
 
     ```bash
-    kubectl apply -f src/mci/resources/gcp-target-http-proxy.yaml
+    kubectl apply -f resources/gcp-target-http-proxy.yaml
     ```
 
     With gcloud:
