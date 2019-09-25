@@ -10,4 +10,4 @@ spec:
   bindings:
     - role: roles/iam.workloadIdentityUser
       members:
-        - serviceAccount:[PROJECT_ID]-dev.svc.id.goog[default/sql-wp-ksa-wi]
+        - serviceAccount:[PROJECT_ID].svc.id.goog[wp-prod/sql-wp-ksa-wi]
