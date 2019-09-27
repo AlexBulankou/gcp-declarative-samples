@@ -35,7 +35,7 @@ This sample shows how Anthos Config Management can be used together with Config 
 1. Install Gatekeeper library and sample constraint template
     ```bash
     kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml
-    kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/demo/agilebank/templates/k8scontainterlimits_template.yaml
+    kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/demo/agilebank/templates/k8srequiredlabels_template.yaml
     ```
 
 1. Your local fork should contain changes where PROJECT_ID template was applied. Check in these changes into Git.
@@ -45,9 +45,9 @@ This sample shows how Anthos Config Management can be used together with Config 
     kubectl apply -f ./config-management.yaml
     ```
     This should create all the objects.
-1. Run `kubectl describe configmanagement` and verify that the status is `Healthy`.
-1. 
-1. Enable one temporary that cannot be executed declaratively. It will soon be replaced by KCC config object.
+1. Run `kubectl describe configmanagement` and verify that the status is `Healthy`. Wait some time for resources to sync.
+
+1. Enable one temporary that cannot be executed declaratively. It will soon be replaced by Config Connector declarative config
     ```bash
     PROJECT_ID=[PROJECT_ID]
     gcloud config set project ${PROJECT_ID}-dev
