@@ -23,6 +23,9 @@ This sample shows how Anthos Config Management can be used together with Config 
     # enable container API
     gcloud services enable container.googleapis.com --project ${PROJECT_ID}
 
+    # enable SQL admin API
+    gcloud services enable sqladmin.googleapis.com --project ${PROJECT_ID}
+
     # create service account that will be used for Config Connector
     gcloud iam service-accounts create cnrm-system --project ${PROJECT_ID}
     gcloud projects add-iam-policy-binding ${PROJECT_ID} --member "serviceAccount:${SA_EMAIL}" --role roles/owner
