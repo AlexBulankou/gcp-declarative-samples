@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-app-pod
+spec:
+  containers:
+  - name: node-app-container
+    image: gcr.io/[PROJECT_ID]/node-hello-world
+    imagePullPolicy: Always
+    env:
+    - name: HELLO_MESSAGE
+      value: "Hello from GCR!"
+    ports:
+    - containerPort: 8080
+  imagePullSecrets:
+      - name: gcr-sa-key
