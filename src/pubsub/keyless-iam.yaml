@@ -1,0 +1,63 @@
+# This set of resources is to create Google Cloud Pubsub, service account for access
+# and propagate permissions to K8s. 
+#
+# Parameterize:
+# [PROJECT_ID] - your GCP project ID
+# [PUBSUB_TOPIC_NAME] - name of your Pubsub topic
+# [PUBSUB_SUBSCRIPTION_NAME] - name of your Pubsub subscription
+# [PUBSUB_POLICY] - pubsub policy name
+# [SA_NAME] - service account name
+# [SA_KEY] - service account key
+# 
+# To use it in your pod, add to your container:
+# volumeMounts:
+# - name: [SA_KEY]
+#   mountPath: /var/secrets/google
+# env:
+# - name: GOOGLE_APPLICATION_CREDENTIALS
+#   value: /var/secrets/google/key.json
+
+apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+kind: PubSubTopic
+metadata:
+  name: [PUBSUB_TOPIC_NAME]
+---
+apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+kind: PubSubSubscription
+metadata:
+  name: [PUBSUB_SUBSCRIPTION_NAME]
+spec:
+  topicRef:
+    name: [PUBSUB_TOPIC_NAME]
+---
+apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+kind: IAMPolicy
+metadata:
+  name: [PUBSUB_POLICY]
+spec:
+  resourceRef:
+    apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+    kind: PubSubTopic
+    name: [PUBSUB_TOPIC_NAME]
+  bindings:
+    - role: roles/editor
+      members:
+        - serviceAccount:[SA_NAME]@[PROJECT_ID].iam.gserviceaccount.com
+---
+apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+kind: IAMServiceAccount
+metadata:
+  name: [SA_NAME]
+spec:
+  displayName: Service account for Pubsub access
+---
+apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+kind: IAMServiceAccountKey
+metadata:
+  name: [SA_KEY]
+spec:
+  publicKeyType: TYPE_X509_PEM_FILE
+  keyAlgorithm: KEY_ALG_RSA_2048
+  privateKeyType: TYPE_GOOGLE_CREDENTIALS_FILE
+  serviceAccountRef:
+    name: [SA_NAME]

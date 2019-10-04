@@ -1,0 +1,69 @@
+# This set of resources is to create Google Cloud Pubsub, service account for access
+# and propagate permissions to K8s using Workload identity
+#
+# Parameterize:
+# [PROJECT_ID] - your GCP project ID
+# [PUBSUB_TOPIC_NAME] - name of your Pubsub topic
+# [PUBSUB_SUBSCRIPTION_NAME] - name of your Pubsub subscription
+# [PUBSUB_POLICY] - pubsub policy name
+# [SA_NAME] - service account name
+# [KSA_NAME] - K8s service account name
+# [KNS] - K8s namespace
+# To use it in your pod, add to your pod spec:
+# serviceAccountName: [KSA_NAME]
+
+apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+kind: PubSubTopic
+metadata:
+  name: [PUBSUB_TOPIC_NAME]
+---
+apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+kind: PubSubSubscription
+metadata:
+  name: [PUBSUB_SUBSCRIPTION_NAME]
+spec:
+  topicRef:
+    name: [PUBSUB_TOPIC_NAME]
+---
+apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+kind: IAMPolicy
+metadata:
+  name: [PUBSUB_POLICY]
+spec:
+  resourceRef:
+    apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+    kind: PubSubTopic
+    name: [PUBSUB_TOPIC_NAME]
+  bindings:
+    - role: roles/editor
+      members:
+        - serviceAccount:[SA_NAME]@[PROJECT_ID].iam.gserviceaccount.com
+---
+apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+kind: IAMServiceAccount
+metadata:
+  name: [SA_NAME]
+spec:
+  displayName: Service account for Pubsub access
+---
+apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+kind: IAMPolicy
+metadata:
+  name: [WI_POLICY]
+spec:
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+    kind: IAMServiceAccount
+    name: [SA_NAME]
+  bindings:
+    - role: roles/iam.workloadIdentityUser
+      members:
+        - serviceAccount:[PROJECT_ID].svc.id.goog[[KNS]/[KSA_NAME]]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: [KSA_NAME]
+  namespace: [KNS]
+  annotations:
+    iam.gke.io/gcp-service-account: [SA_NAME]@[PROJECT_ID].iam.gserviceaccount.com
