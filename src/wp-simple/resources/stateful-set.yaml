@@ -72,13 +72,13 @@ spec:
                   "-instances=$(PROJECT_ID):$(CONNECTION_NAME)=tcp:3306",
                   "-credential_file=/secrets/cloudsql/key.json"]
         volumeMounts:
-        - name: gcp-key-owner
+        - name: gcp-key
           mountPath: /secrets/cloudsql
           readOnly: true
       volumes:
-        - name: gcp-key-owner
+        - name: gcp-key
           secret:
-            secretName: gcp-key-owner
+            secretName: gcp-key
   volumeClaimTemplates:
     - metadata:
         name: wordpress-volume

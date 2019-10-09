@@ -10,7 +10,12 @@ One limitation of Config Connector today is that sql_user resource is referencin
     ```bash
     kubectl apply -f resources/
     ```
+1. Run one additonal temporary step required, as this sample is using cnrm-system key. This will be soon replaced by using service account object created by Config Connector.
 
+    ```bash
+    kubectl create secret generic gcp-key --from-file ./key.json
+    ```
+    
 ## Clean up:
 ``` bash
 kubectl delete -f resources/
