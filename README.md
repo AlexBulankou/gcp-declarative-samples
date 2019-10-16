@@ -8,3 +8,4 @@ This repo contains a collection of infrastructure examples using [Kubernetes Con
 * [Multi-cluster ingress](src/mci/README.md)
 * [Gatekeeper integration](src/gatekeeper/README.md)
 * [Multiple Team Namespace-Project Configuration](src/multiteam/README.md)
+* [GCR image pull permissions from exernal K8s cluster with Config Connector](src/gcr-image/README.md)

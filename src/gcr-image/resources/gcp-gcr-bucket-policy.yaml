@@ -8,6 +8,6 @@ spec:
     kind: StorageBucket
     name: artifacts.[PROJECT_ID].appspot.com
   bindings:
-    - role: roles/storage.viewer
+    - role: roles/storage.objectViewer
       members:
         - serviceAccount:gcr-sa@[PROJECT_ID].iam.gserviceaccount.com

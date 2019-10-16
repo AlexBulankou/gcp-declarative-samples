@@ -13,4 +13,4 @@ spec:
     ports:
     - containerPort: 8080
   imagePullSecrets:
-      - name: gcr-sa-key
+      - name: gcr-docker-key

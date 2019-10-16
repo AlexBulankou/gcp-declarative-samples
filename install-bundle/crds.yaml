@@ -9,6 +9,8 @@ metadata:
 spec:
   group: bigquery.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: BigQueryDataset
     plural: bigquerydatasets
     singular: bigquerydataset
@@ -24,7 +26,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -314,6 +316,8 @@ metadata:
 spec:
   group: compute.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ComputeAddress
     plural: computeaddresses
     singular: computeaddress
@@ -329,7 +333,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -423,6 +427,8 @@ metadata:
 spec:
   group: compute.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ComputeBackendService
     plural: computebackendservices
     singular: computebackendservice
@@ -438,7 +444,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -603,6 +609,8 @@ metadata:
 spec:
   group: compute.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ComputeFirewall
     plural: computefirewalls
     singular: computefirewall
@@ -618,7 +626,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -756,6 +764,8 @@ metadata:
 spec:
   group: compute.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ComputeGlobalForwardingRule
     plural: computeglobalforwardingrules
     singular: computeglobalforwardingrule
@@ -771,7 +781,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -875,6 +885,8 @@ metadata:
 spec:
   group: compute.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ComputeHealthCheck
     plural: computehealthchecks
     singular: computehealthcheck
@@ -890,7 +902,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -1010,6 +1022,8 @@ metadata:
 spec:
   group: compute.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ComputeNetwork
     plural: computenetworks
     singular: computenetwork
@@ -1025,7 +1039,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -1098,6 +1112,8 @@ metadata:
 spec:
   group: compute.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ComputeSubnetwork
     plural: computesubnetworks
     singular: computesubnetwork
@@ -1113,7 +1129,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -1227,6 +1243,8 @@ metadata:
 spec:
   group: compute.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ComputeTargetHTTPProxy
     plural: computetargethttpproxies
     singular: computetargethttpproxy
@@ -1242,7 +1260,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -1324,6 +1342,8 @@ metadata:
 spec:
   group: compute.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ComputeURLMap
     plural: computeurlmaps
     singular: computeurlmap
@@ -1339,25 +1359,28 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
         spec:
           properties:
-            defaultServiceRef:
+            defaultService:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
-                name:
-                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
-                  type: string
-                namespace:
-                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
-                  type: string
-              required:
-              - name
+                backendServiceRef:
+                  properties:
+                    kind:
+                      description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                      type: string
+                    name:
+                      description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                      type: string
+                    namespace:
+                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                      type: string
+                  required:
+                  - name
+                  type: object
               type: object
             description:
               type: string
@@ -1381,7 +1404,22 @@ spec:
               items:
                 properties:
                   defaultService:
-                    type: string
+                    properties:
+                      backendServiceRef:
+                        properties:
+                          kind:
+                            description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                            type: string
+                          namespace:
+                            description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                            type: string
+                        required:
+                        - name
+                        type: object
+                    type: object
                   description:
                     type: string
                   name:
@@ -1394,14 +1432,28 @@ spec:
                             type: string
                           type: array
                         service:
-                          type: string
+                          properties:
+                            backendServiceRef:
+                              properties:
+                                kind:
+                                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                                  type: string
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                                  type: string
+                                namespace:
+                                  description: 'Namespace of the referent. More info:
+                                    https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                                  type: string
+                              required:
+                              - name
+                              type: object
+                          type: object
                       required:
                       - paths
-                      - service
                       type: object
                     type: array
                 required:
-                - defaultService
                 - name
                 type: object
               type: array
@@ -1415,15 +1467,27 @@ spec:
                   path:
                     type: string
                   service:
-                    type: string
+                    properties:
+                      backendServiceRef:
+                        properties:
+                          kind:
+                            description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                            type: string
+                          namespace:
+                            description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                            type: string
+                        required:
+                        - name
+                        type: object
+                    type: object
                 required:
                 - host
                 - path
-                - service
                 type: object
               type: array
-          required:
-          - defaultServiceRef
           type: object
         status:
           properties:
@@ -1462,8 +1526,6 @@ spec:
             selfLink:
               type: string
           type: object
-      required:
-      - spec
       type: object
   version: v1alpha1
 status:
@@ -1484,6 +1546,8 @@ metadata:
 spec:
   group: container.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ContainerCluster
     plural: containerclusters
     singular: containercluster
@@ -1499,7 +1563,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -1883,6 +1947,8 @@ metadata:
 spec:
   group: container.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: ContainerNodePool
     plural: containernodepools
     singular: containernodepool
@@ -1898,7 +1964,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -2176,6 +2242,8 @@ metadata:
 spec:
   group: iam.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: IAMServiceAccountKey
     plural: iamserviceaccountkeys
     singular: iamserviceaccountkey
@@ -2191,7 +2259,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -2287,6 +2355,8 @@ metadata:
 spec:
   group: iam.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: IAMServiceAccount
     plural: iamserviceaccounts
     singular: iamserviceaccount
@@ -2302,7 +2372,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -2366,6 +2436,8 @@ metadata:
 spec:
   group: kms.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: KMSKeyRing
     plural: kmskeyrings
     singular: kmskeyring
@@ -2381,7 +2453,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -2445,6 +2517,8 @@ metadata:
 spec:
   group: pubsub.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: PubSubSubscription
     plural: pubsubsubscriptions
     singular: pubsubsubscription
@@ -2460,7 +2534,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -2558,6 +2632,8 @@ metadata:
 spec:
   group: pubsub.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: PubSubTopic
     plural: pubsubtopics
     singular: pubsubtopic
@@ -2573,7 +2649,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -2631,6 +2707,8 @@ metadata:
 spec:
   group: redis.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: RedisInstance
     plural: redisinstances
     singular: redisinstance
@@ -2646,7 +2724,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -2769,6 +2847,37 @@ spec:
                 map a specific resource from the Terraform provider to KRM.
               items:
                 properties:
+                  iamConfig:
+                    description: IAMConfig contains the mappings from a given resource
+                      onto its associated terraform IAM resources (policies, bindings,
+                      and members)
+                    properties:
+                      policyName:
+                        description: Name is the terraform name of the associated
+                          IAM Policy resource (e.g. google_spanner_instance_iam_policy)
+                        type: string
+                      referenceField:
+                        description: A description of the manner in which the IAM
+                          Policy references its resource.
+                        properties:
+                          name:
+                            description: The name of the field in the policy or binding
+                              which references the resource. For 'google_spanner_instance_iam_policy'
+                              this value is 'instance'.
+                            type: string
+                          type:
+                            description: The type of value that should be used in
+                              this field. It can be one of { name, id }. For 'google_spanner_instance_iam_policy'
+                              it would be 'name' for 'google_kms_key_ring_iam_policy'
+                              it would be 'id'.
+                            type: string
+                        required:
+                        - name
+                        - type
+                        type: object
+                    required:
+                    - policyName
+                    type: object
                   idTemplate:
                     description: IDTemplate defines the format in which the ID fed
                       into the TF resource's importer should look. Fields may be sourced
@@ -2814,20 +2923,25 @@ spec:
                       of type ObjectReference.
                     items:
                       properties:
+                        jsonSchemaType:
+                          description: JSONSchemaType specifies the type as understood
+                            by JSON schema validation of this reference field. Should
+                            never be specified for a TypeConfig inlined in the ResourceReference.  This
+                            field is mutually exclusive with Kind and TargetField.
+                          type: string
                         key:
                           description: 'Key is the field name that will be exposed
                             through the KRM resource''s spec. It should follow the
-                            Kubernetes reference naming semantics:   - For individual
-                            references, `fooRef`, where foo is some describer of what     is
-                            being referenced (e.g. instanceRef, healthCheckRef)   -
-                            For lists, `foos`, where foo is some describer of what
-                            is being referenced     (e.g. healthChecks, addresses)'
+                            Kubernetes reference naming semantics:   `fooRef`, where
+                            foo is some describer of what is being referenced (e.g.   instanceRef,
+                            healthCheckRef)'
                           type: string
                         kind:
                           description: Kind is the Kubernetes kind of the resource
                             being referenced. If none is set, the ObjectReference
                             specified by the user must set the kind. The API group
-                            and version are assumed to match the referencing resource's.
+                            and version are assumed to match the referencing resource's.  This
+                            field is mutually exclusive with JSONSchemaType.
                           type: string
                         parent:
                           description: Parent specifies whether the referenced resource
@@ -2853,8 +2967,74 @@ spec:
                           description: TFField is the name of the field in the underlying
                             Terraform provider that is the implicit reference.
                           type: string
+                        types:
+                          description: Types is the supported types this resource
+                            reference supports. If specified, it means the field pointed
+                            to by TFField is a container of mutually-exclusive ObjectReferences
+                            or primitive types. Must not be specified if the inlined
+                            TypeConfig is filled out.
+                          items:
+                            properties:
+                              jsonSchemaType:
+                                description: JSONSchemaType specifies the type as
+                                  understood by JSON schema validation of this reference
+                                  field. Should never be specified for a TypeConfig
+                                  inlined in the ResourceReference.  This field is
+                                  mutually exclusive with Kind and TargetField.
+                                type: string
+                              key:
+                                description: 'Key is the field name that will be exposed
+                                  through the KRM resource''s spec. It should follow
+                                  the Kubernetes reference naming semantics:   `fooRef`,
+                                  where foo is some describer of what is being referenced
+                                  (e.g.   instanceRef, healthCheckRef)'
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource
+                                  being referenced. If none is set, the ObjectReference
+                                  specified by the user must set the kind. The API
+                                  group and version are assumed to match the referencing
+                                  resource's.  This field is mutually exclusive with
+                                  JSONSchemaType.
+                                type: string
+                              parent:
+                                description: Parent specifies whether the referenced
+                                  resource is a parent. If the parent is successfully
+                                  deleted, this resource may be deleted without any
+                                  call to the underlying API. If a reference is a
+                                  parent, it must also be marked as required. Only
+                                  one parent may be present.
+                                type: boolean
+                              targetField:
+                                description: 'TargetField is the field of the referenced
+                                  resource that will be extracted and set as the value
+                                  of the reference''s TFField. Currently, this supports
+                                  the following values:   - "" (blank) implies the
+                                  resource''s `metadata.name`   - "selfLink" implies
+                                  the resource''s GCP selflink.   - "email" implies
+                                  the email address of the service account.'
+                                type: string
+                              valueTemplate:
+                                description: ValueTemplate is a template by which
+                                  the value sourced from the reference should be interpreted
+                                  before being passed to the Terraform provider. {{value}}
+                                  is used in place of this sourced value.  e.g. If
+                                  the value sourced from the reference is "foo@domain.com",
+                                  a valueTemplate of "serviceAccount:{{value}}" would
+                                  mean the final value passed to the provider is "serviceAccount:foo@domain.com"
+                                type: string
+                            type: object
+                          type: array
+                        valueTemplate:
+                          description: ValueTemplate is a template by which the value
+                            sourced from the reference should be interpreted before
+                            being passed to the Terraform provider. {{value}} is used
+                            in place of this sourced value.  e.g. If the value sourced
+                            from the reference is "foo@domain.com", a valueTemplate
+                            of "serviceAccount:{{value}}" would mean the final value
+                            passed to the provider is "serviceAccount:foo@domain.com"
+                          type: string
                       required:
-                      - key
                       - tfField
                       type: object
                     type: array
@@ -2903,6 +3083,8 @@ metadata:
 spec:
   group: spanner.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: SpannerInstance
     plural: spannerinstances
     singular: spannerinstance
@@ -2918,7 +3100,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -2987,6 +3169,8 @@ metadata:
 spec:
   group: sql.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: SQLDatabase
     plural: sqldatabases
     singular: sqldatabase
@@ -3002,7 +3186,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -3082,6 +3266,8 @@ metadata:
 spec:
   group: sql.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: SQLInstance
     plural: sqlinstances
     singular: sqlinstance
@@ -3097,7 +3283,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -3317,6 +3503,8 @@ metadata:
 spec:
   group: sql.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: SQLUser
     plural: sqlusers
     singular: sqluser
@@ -3332,7 +3520,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -3413,6 +3601,8 @@ metadata:
 spec:
   group: storage.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: StorageBucketAccessControl
     plural: storagebucketaccesscontrols
   scope: Namespaced
@@ -3427,7 +3617,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -3531,6 +3721,8 @@ metadata:
 spec:
   group: storage.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: StorageBucket
     plural: storagebuckets
     singular: storagebucket
@@ -3546,7 +3738,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -3700,6 +3892,8 @@ metadata:
 spec:
   group: storage.cnrm.cloud.google.com
   names:
+    categories:
+    - gcp
     kind: StorageDefaultObjectAccessControl
     plural: storagedefaultobjectaccesscontrols
     singular: storagedefaultobjectaccesscontrol
@@ -3715,7 +3909,7 @@ spec:
         kind:
           description: 'kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submi ts requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object

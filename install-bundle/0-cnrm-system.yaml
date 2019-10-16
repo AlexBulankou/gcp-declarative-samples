@@ -5,6 +5,14 @@ metadata:
     controller-tools.k8s.io: "1.0"
   name: cnrm-system
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: cnrm-controller-manager
+  namespace: cnrm-system
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -346,7 +354,7 @@ roleRef:
   name: cnrm-manager-role
 subjects:
 - kind: ServiceAccount
-  name: default
+  name: cnrm-controller-manager
   namespace: cnrm-system
 ---
 apiVersion: v1
@@ -392,7 +400,7 @@ spec:
         env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
-        image: gcr.io/cnrm-eap/controller:a70be8d
+        image: gcr.io/cnrm-eap/controller:a1a62a1
         imagePullPolicy: Always
         name: manager
         resources:
@@ -405,6 +413,7 @@ spec:
         volumeMounts:
         - mountPath: /var/secrets/google
           name: gcp-service-account
+      serviceAccountName: cnrm-controller-manager
       terminationGracePeriodSeconds: 10
       volumes:
       - name: gcp-service-account
