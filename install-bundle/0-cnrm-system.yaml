@@ -400,7 +400,7 @@ spec:
         env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
-        image: gcr.io/cnrm-eap/controller:a1a62a1
+        image: gcr.io/cnrm-eap/controller:122a2d1
         imagePullPolicy: Always
         name: manager
         resources:
