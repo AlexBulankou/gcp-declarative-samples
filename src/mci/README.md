@@ -47,6 +47,7 @@ kubectl apply -f na/
 gcloud container clusters get-credentials cluster-eu --zone=europe-west2-a
 kubectl apply -f eu/
 ```
+
 1. Set named port on the instance groups:
 
 ```bash
