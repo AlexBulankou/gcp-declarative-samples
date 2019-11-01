@@ -235,6 +235,18 @@ rules:
   - patch
   - delete
 - apiGroups:
+  - dns.cnrm.cloud.google.com
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
   - iam.cnrm.cloud.google.com
   resources:
   - '*'
@@ -400,16 +412,16 @@ spec:
         env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
-        image: gcr.io/cnrm-eap/controller:122a2d1
+        image: gcr.io/cnrm-eap/controller:1c2f0ce
         imagePullPolicy: Always
         name: manager
         resources:
           limits:
             cpu: 100m
-            memory: 60Mi
+            memory: 256Mi
           requests:
             cpu: 100m
-            memory: 40Mi
+            memory: 128Mi
         volumeMounts:
         - mountPath: /var/secrets/google
           name: gcp-service-account

@@ -15,13 +15,6 @@ In this sample there's no longer needed to mount keys in the [pod configuration]
     kubectl apply -f resources/
     ```
 
-1. Enable SQL account binding after account is created. This step will be replaced with declarative config:
-
-    ```bash
-    kubectl wait --for=condition=Ready iamserviceaccount/sql-wp-sa --timeout=30m
-    bash deploy.sh
-    ```
-
 1. Wait for sql instance to be ready
     ```bash
     # Note that you can wait on the proxy resources too

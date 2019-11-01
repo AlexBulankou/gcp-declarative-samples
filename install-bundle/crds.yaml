@@ -155,9 +155,6 @@ spec:
           properties:
             datasetRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -536,15 +533,12 @@ spec:
                 type: string
               type: object
             location:
-              description: specify the location of resource to create. use 'global'
-                for global resources or specify the zone or region value. Config Connector
-                now supports regional, global computeaddresses
+              description: 'Location represents the geographical location of the ComputeAddress.
+                Specify a region name or "global" for global resources. Reference:
+                GCP definition of regions/zones (https://cloud.google.com/compute/docs/regions-zones/)'
               type: string
             networkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -562,9 +556,6 @@ spec:
               type: string
             subnetworkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -617,7 +608,108 @@ spec:
               type: array
           type: object
       type: object
-  version: v1alpha2
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computebackendbuckets.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: ComputeBackendBucket
+    plural: computebackendbuckets
+    singular: computebackendbucket
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            bucketRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            cdnPolicy:
+              properties:
+                signedUrlCacheMaxAgeSec:
+                  type: integer
+              type: object
+            description:
+              type: string
+            enableCdn:
+              type: boolean
+          required:
+          - bucketRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            selfLink:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -667,7 +759,7 @@ spec:
                   balancingMode:
                     type: string
                   capacityScaler:
-                    type: string
+                    type: number
                   description:
                     type: string
                   group:
@@ -681,11 +773,11 @@ spec:
                   maxRate:
                     type: integer
                   maxRatePerEndpoint:
-                    type: string
+                    type: number
                   maxRatePerInstance:
-                    type: string
+                    type: number
                   maxUtilization:
-                    type: string
+                    type: number
                 type: object
               type: array
             cdnPolicy:
@@ -722,9 +814,6 @@ spec:
               type: boolean
             healthCheckRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -749,9 +838,8 @@ spec:
             loadBalancingScheme:
               type: string
             location:
-              description: specify the location of resource to create. use 'global'
-                for global resources or specify the zone or region value. Config Connector
-                now supports global computebackendservices
+              description: Location represents the geographical location of the ComputeBackendService.
+                Specify "global" for global resources.
               type: string
             portName:
               type: string
@@ -805,7 +893,188 @@ spec:
       required:
       - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computedisks.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: ComputeDisk
+    plural: computedisks
+    singular: computedisk
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            description:
+              type: string
+            diskEncryptionKey:
+              properties:
+                kmsKeyRef:
+                  properties:
+                    name:
+                      description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                      type: string
+                    namespace:
+                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                      type: string
+                  required:
+                  - name
+                  type: object
+                rawKey:
+                  type: string
+                sha256:
+                  type: string
+              type: object
+            imageRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            location:
+              description: 'Location represents the geographical location of the ComputeDisk.
+                Specify a zone name. Reference: GCP definition of regions/zones (https://cloud.google.com/compute/docs/regions-zones/)'
+              type: string
+            physicalBlockSizeBytes:
+              type: integer
+            size:
+              type: integer
+            snapshotRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            sourceImageEncryptionKey:
+              properties:
+                kmsKeyRef:
+                  properties:
+                    name:
+                      description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                      type: string
+                    namespace:
+                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                      type: string
+                  required:
+                  - name
+                  type: object
+                rawKey:
+                  type: string
+                sha256:
+                  type: string
+              type: object
+            sourceSnapshotEncryptionKey:
+              properties:
+                kmsKeyRef:
+                  properties:
+                    name:
+                      description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                      type: string
+                    namespace:
+                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                      type: string
+                  required:
+                  - name
+                  type: object
+                rawKey:
+                  type: string
+                sha256:
+                  type: string
+              type: object
+            type:
+              type: string
+          required:
+          - location
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            labelFingerprint:
+              type: string
+            lastAttachTimestamp:
+              type: string
+            lastDetachTimestamp:
+              type: string
+            selfLink:
+              type: string
+            sourceImageId:
+              type: string
+            sourceSnapshotId:
+              type: string
+            users:
+              items:
+                type: string
+              type: array
+          type: object
+      type: object
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -893,7 +1162,7 @@ spec:
               type: string
           type: object
       type: object
-  version: v1alpha2
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -975,9 +1244,6 @@ spec:
               type: boolean
             networkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -1048,7 +1314,7 @@ spec:
       required:
       - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -1090,26 +1356,52 @@ spec:
           type: object
         spec:
           properties:
+            allPorts:
+              type: boolean
+            backendServiceRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
             description:
               type: string
             ipAddress:
-              type: string
+              properties:
+                addressRef:
+                  properties:
+                    name:
+                      description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                      type: string
+                    namespace:
+                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                      type: string
+                  required:
+                  - name
+                  type: object
+                ip:
+                  type: string
+              type: object
             ipProtocol:
               type: string
             ipVersion:
+              description: DEPRECATED — ipVersion is not used for regional forwarding
+                rules. Please remove this field if you are using it.
               type: string
             loadBalancingScheme:
               type: string
             location:
-              description: specify the location of resource to create. use 'global'
-                for global resources or specify the zone or region value. Config Connector
-                now supports global computeforwardingrules
+              description: 'Location represents the geographical location of the ComputeForwardingRule.
+                Specify a region name or "global" for global resources. Reference:
+                GCP definition of regions/zones (https://cloud.google.com/compute/docs/regions-zones/)'
               type: string
             networkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -1119,13 +1411,18 @@ spec:
               required:
               - name
               type: object
+            networkTier:
+              type: string
             portRange:
               type: string
-            targetRef:
+            ports:
+              items:
+                type: string
+              type: array
+            serviceLabel:
+              type: string
+            subnetworkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -1134,10 +1431,34 @@ spec:
                   type: string
               required:
               - name
+              type: object
+            target:
+              properties:
+                targetHTTPProxyRef:
+                  properties:
+                    name:
+                      description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                      type: string
+                    namespace:
+                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                      type: string
+                  required:
+                  - name
+                  type: object
+                targetVPNGatewayRef:
+                  properties:
+                    name:
+                      description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                      type: string
+                    namespace:
+                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                      type: string
+                  required:
+                  - name
+                  type: object
               type: object
           required:
           - location
-          - targetRef
           type: object
         status:
           properties:
@@ -1167,15 +1488,17 @@ spec:
                     type: string
                 type: object
               type: array
+            creationTimestamp:
+              type: string
             labelFingerprint:
               type: string
             selfLink:
               type: string
+            serviceName:
+              type: string
           type: object
-      required:
-      - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -1250,9 +1573,8 @@ spec:
                   type: string
               type: object
             location:
-              description: specify the location of resource to create. use 'global'
-                for global resources or specify the zone or region value. Config Connector
-                now supports global computehealthchecks
+              description: Location represents the geographical location of the ComputeHealthCheck.
+                Specify "global" for global resources.
               type: string
             sslHealthCheck:
               properties:
@@ -1319,7 +1641,100 @@ spec:
               type: string
           type: object
       type: object
-  version: v1alpha2
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computehttphealthchecks.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: ComputeHTTPHealthCheck
+    plural: computehttphealthchecks
+    singular: computehttphealthcheck
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            checkIntervalSec:
+              type: integer
+            description:
+              type: string
+            healthyThreshold:
+              type: integer
+            host:
+              type: string
+            port:
+              type: integer
+            requestPath:
+              type: string
+            timeoutSec:
+              type: integer
+            unhealthyThreshold:
+              type: integer
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            selfLink:
+              type: string
+          type: object
+      type: object
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -1412,7 +1827,120 @@ spec:
               type: string
           type: object
       type: object
-  version: v1alpha2
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computeimages.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: ComputeImage
+    plural: computeimages
+    singular: computeimage
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            description:
+              type: string
+            diskRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            diskSizeGb:
+              type: integer
+            family:
+              type: string
+            licenses:
+              items:
+                type: string
+              type: array
+            rawDisk:
+              properties:
+                containerType:
+                  type: string
+                sha1:
+                  type: string
+                source:
+                  type: string
+              required:
+              - source
+              type: object
+          type: object
+        status:
+          properties:
+            archiveSizeBytes:
+              type: integer
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            labelFingerprint:
+              type: string
+            selfLink:
+              type: string
+          type: object
+      type: object
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -1465,9 +1993,6 @@ spec:
               type: boolean
             networkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -1479,9 +2004,6 @@ spec:
               type: object
             peerNetworkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -1531,7 +2053,7 @@ spec:
       required:
       - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -1621,7 +2143,162 @@ spec:
               type: string
           type: object
       type: object
-  version: v1alpha2
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computerouternats.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: ComputeRouterNAT
+    plural: computerouternats
+    singular: computerouternat
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            icmpIdleTimeoutSec:
+              type: integer
+            logConfig:
+              properties:
+                enable:
+                  type: boolean
+                filter:
+                  type: string
+              required:
+              - enable
+              - filter
+              type: object
+            minPortsPerVm:
+              type: integer
+            natIpAllocateOption:
+              type: string
+            natIps:
+              items:
+                properties:
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                    type: string
+                  namespace:
+                    description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                    type: string
+                required:
+                - name
+                type: object
+              type: array
+            region:
+              type: string
+            routerRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            sourceSubnetworkIpRangesToNat:
+              type: string
+            subnetwork:
+              items:
+                properties:
+                  secondaryIpRangeNames:
+                    items:
+                      type: string
+                    type: array
+                  sourceIpRangesToNat:
+                    items:
+                      type: string
+                    type: array
+                  subnetworkRef:
+                    properties:
+                      name:
+                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        type: string
+                      namespace:
+                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        type: string
+                    required:
+                    - name
+                    type: object
+                required:
+                - sourceIpRangesToNat
+                - subnetworkRef
+                type: object
+              type: array
+            tcpEstablishedIdleTimeoutSec:
+              type: integer
+            tcpTransitoryIdleTimeoutSec:
+              type: integer
+            udpIdleTimeoutSec:
+              type: integer
+          required:
+          - natIpAllocateOption
+          - routerRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -1689,9 +2366,6 @@ spec:
               type: string
             networkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -1742,7 +2416,7 @@ spec:
       required:
       - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -1812,7 +2486,224 @@ spec:
               type: array
           type: object
       type: object
-  version: v1alpha2
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computesnapshots.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: ComputeSnapshot
+    plural: computesnapshots
+    singular: computesnapshot
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            description:
+              type: string
+            snapshotEncryptionKey:
+              properties:
+                rawKey:
+                  type: string
+                sha256:
+                  type: string
+              type: object
+            sourceDiskEncryptionKey:
+              properties:
+                rawKey:
+                  type: string
+              type: object
+            sourceDiskRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            zone:
+              type: string
+          required:
+          - sourceDiskRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            diskSizeGb:
+              type: integer
+            labelFingerprint:
+              type: string
+            licenses:
+              items:
+                type: string
+              type: array
+            selfLink:
+              type: string
+            snapshotId:
+              type: integer
+            sourceDiskLink:
+              type: string
+            storageBytes:
+              type: integer
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computesslcertificates.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: ComputeSSLCertificate
+    plural: computesslcertificates
+    singular: computesslcertificate
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            certificate:
+              type: string
+            description:
+              type: string
+            location:
+              description: Location represents the geographical location of the ComputeSSLCertificate.
+                Specify "global" for global resources.
+              type: string
+            privateKey:
+              type: string
+          required:
+          - certificate
+          - location
+          - privateKey
+          type: object
+        status:
+          properties:
+            certificateId:
+              type: integer
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            selfLink:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -1865,15 +2756,12 @@ spec:
                 aggregationInterval:
                   type: string
                 flowSampling:
-                  type: string
+                  type: number
                 metadata:
                   type: string
               type: object
             networkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -1943,7 +2831,7 @@ spec:
       required:
       - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -1988,15 +2876,11 @@ spec:
             description:
               type: string
             location:
-              description: specify the location of resource to create. use 'global'
-                for global resources or specify the zone or region value. Config Connector
-                now supports global computetargethttpproxies
+              description: Location represents the geographical location of the ComputeTargetHTTPProxy.
+                Specify "global" for global resources.
               type: string
             urlMapRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -2048,7 +2932,7 @@ spec:
       required:
       - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -2094,9 +2978,6 @@ spec:
               type: string
             networkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -2108,6 +2989,8 @@ spec:
               type: object
             region:
               type: string
+          required:
+          - networkRef
           type: object
         status:
           properties:
@@ -2142,8 +3025,10 @@ spec:
             selfLink:
               type: string
           type: object
+      required:
+      - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -2189,9 +3074,6 @@ spec:
               properties:
                 backendServiceRef:
                   properties:
-                    kind:
-                      description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                      type: string
                     name:
                       description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                       type: string
@@ -2221,9 +3103,8 @@ spec:
                 type: object
               type: array
             location:
-              description: specify the location of resource to create. use 'global'
-                for global resources or specify the zone or region value. Config Connector
-                now supports global computeurlmaps
+              description: Location represents the geographical location of the ComputeURLMap.
+                Specify "global" for global resources.
               type: string
             pathMatcher:
               items:
@@ -2232,9 +3113,6 @@ spec:
                     properties:
                       backendServiceRef:
                         properties:
-                          kind:
-                            description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                            type: string
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                             type: string
@@ -2260,9 +3138,6 @@ spec:
                           properties:
                             backendServiceRef:
                               properties:
-                                kind:
-                                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                                  type: string
                                 name:
                                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                                   type: string
@@ -2276,9 +3151,11 @@ spec:
                           type: object
                       required:
                       - paths
+                      - service
                       type: object
                     type: array
                 required:
+                - defaultService
                 - name
                 type: object
               type: array
@@ -2295,9 +3172,6 @@ spec:
                     properties:
                       backendServiceRef:
                         properties:
-                          kind:
-                            description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                            type: string
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                             type: string
@@ -2311,9 +3185,11 @@ spec:
                 required:
                 - host
                 - path
+                - service
                 type: object
               type: array
           required:
+          - defaultService
           - location
           type: object
         status:
@@ -2353,8 +3229,10 @@ spec:
             selfLink:
               type: string
           type: object
+      required:
+      - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -2400,9 +3278,6 @@ spec:
               type: string
             networkRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -2414,6 +3289,8 @@ spec:
               type: object
             region:
               type: string
+          required:
+          - networkRef
           type: object
         status:
           properties:
@@ -2455,8 +3332,174 @@ spec:
                 type: object
               type: array
           type: object
+      required:
+      - spec
       type: object
-  version: v1alpha2
+  version: v1alpha3
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: computevpntunnels.compute.cnrm.cloud.google.com
+spec:
+  group: compute.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: ComputeVPNTunnel
+    plural: computevpntunnels
+    singular: computevpntunnel
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            description:
+              type: string
+            ikeVersion:
+              type: integer
+            localTrafficSelector:
+              items:
+                type: string
+              type: array
+            peerExternalGatewayInterface:
+              type: integer
+            peerExternalGatewayRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            peerGCPGatewayRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            peerIp:
+              type: string
+            region:
+              type: string
+            remoteTrafficSelector:
+              items:
+                type: string
+              type: array
+            routerRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            sharedSecret:
+              type: string
+            targetVPNGatewayRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            vpnGatewayInterface:
+              type: integer
+            vpnGatewayRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+          required:
+          - sharedSecret
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            creationTimestamp:
+              type: string
+            detailedStatus:
+              type: string
+            labelFingerprint:
+              type: string
+            selfLink:
+              type: string
+            sharedSecretHash:
+              type: string
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha3
 status:
   acceptedNames:
     kind: ""
@@ -2911,9 +3954,6 @@ spec:
               type: object
             clusterRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -3058,6 +4098,161 @@ spec:
       - spec
       type: object
   version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: dnsmanagedzones.dns.cnrm.cloud.google.com
+spec:
+  group: dns.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: DNSManagedZone
+    plural: dnsmanagedzones
+    singular: dnsmanagedzone
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            description:
+              type: string
+            dnsName:
+              type: string
+            dnssecConfig:
+              properties:
+                defaultKeySpecs:
+                  items:
+                    properties:
+                      algorithm:
+                        type: string
+                      keyLength:
+                        type: integer
+                      keyType:
+                        type: string
+                      kind:
+                        type: string
+                    type: object
+                  type: array
+                kind:
+                  type: string
+                nonExistence:
+                  type: string
+                state:
+                  type: string
+              type: object
+            forwardingConfig:
+              properties:
+                targetNameServers:
+                  items:
+                    properties:
+                      ipv4Address:
+                        type: string
+                    type: object
+                  type: array
+              type: object
+            peeringConfig:
+              properties:
+                targetNetwork:
+                  properties:
+                    networkRef:
+                      properties:
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                          type: string
+                        namespace:
+                          description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                          type: string
+                      required:
+                      - name
+                      type: object
+                  type: object
+              type: object
+            privateVisibilityConfig:
+              properties:
+                networks:
+                  items:
+                    properties:
+                      networkRef:
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                            type: string
+                          namespace:
+                            description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                            type: string
+                        required:
+                        - name
+                        type: object
+                    type: object
+                  type: array
+              type: object
+            visibility:
+              type: string
+          required:
+          - dnsName
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            nameServers:
+              items:
+                type: string
+              type: array
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha1
 status:
   acceptedNames:
     kind: ""
@@ -3256,6 +4451,92 @@ metadata:
   creationTimestamp: null
   labels:
     cnrm.cloud.google.com/managed-by-kcc: "true"
+    controller-tools.k8s.io: "1.0"
+  name: iampolicymembers.iam.cnrm.cloud.google.com
+spec:
+  group: iam.cnrm.cloud.google.com
+  names:
+    kind: IAMPolicyMember
+    plural: iampolicymembers
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            member:
+              description: Required. The list of IAM identities to be bound to the
+                role
+              pattern: ^(user|serviceAccount|group|domain):.+$
+              type: string
+            resourceRef:
+              description: Required. The GCP resource to set the IAM policy on (e.g.
+                organization, project...)
+              type: object
+            role:
+              description: Required. The role for which the Member will be bound.
+              pattern: ^roles/[\w\.]+$
+              type: string
+          required:
+          - resourceRef
+          - member
+          - role
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observations
+                of the IAM policy's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+          type: object
+  version: v1alpha1
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
     cnrm.cloud.google.com/tf2crd: "true"
   name: iamserviceaccountkeys.iam.cnrm.cloud.google.com
 spec:
@@ -3294,9 +4575,6 @@ spec:
               type: string
             serviceAccountRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -3583,9 +4861,6 @@ spec:
               type: boolean
             topicRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -3871,8 +5146,12 @@ spec:
                       onto its associated terraform IAM resources (policies, bindings,
                       and members)
                     properties:
+                      policyMemberName:
+                        description: PolicyMemberName is the terraform name of the
+                          associated IAM Policy Member resource (e.g. google_spanner_instance_iam_member)
+                        type: string
                       policyName:
-                        description: Name is the terraform name of the associated
+                        description: PolicyName is the terraform name of the associated
                           IAM Policy resource (e.g. google_spanner_instance_iam_policy)
                         type: string
                       referenceField:
@@ -3896,6 +5175,7 @@ spec:
                         type: object
                     required:
                     - policyName
+                    - policyMemberName
                     type: object
                   idTemplate:
                     description: IDTemplate defines the format in which the ID fed
@@ -3970,7 +5250,9 @@ spec:
                             through the KRM resource''s spec. It should follow the
                             Kubernetes reference naming semantics:   `fooRef`, where
                             foo is some describer of what is being referenced (e.g.   instanceRef,
-                            healthCheckRef)'
+                            healthCheckRef) Complex references (those with a "Types"
+                            list defined) or lists of references should not specify
+                            a key.'
                           type: string
                         kind:
                           description: Kind is the Kubernetes kind of the resource
@@ -3983,12 +5265,8 @@ spec:
                           description: Parent specifies whether the referenced resource
                             is a parent. If the parent is successfully deleted, this
                             resource may be deleted without any call to the underlying
-                            API. If a reference is a parent, it must also be marked
-                            as required. Only one parent may be present.
-                          type: boolean
-                        required:
-                          description: Required is whether this reference is required
-                            by the CRD's validation schema.
+                            API. Only one parent may be present. A parent reference's
+                            TFField must not be a nested path.
                           type: boolean
                         targetField:
                           description: 'TargetField is the field of the referenced
@@ -4000,8 +5278,12 @@ spec:
                             the service account.'
                           type: string
                         tfField:
-                          description: TFField is the name of the field in the underlying
-                            Terraform provider that is the implicit reference.
+                          description: TFField is the path to the field in the underlying
+                            Terraform provider that is the implicit reference. Use
+                            periods to delimit the fields in the path. For example,
+                            if the reference field is "bar" nested inside "foo" ("foo"
+                            being either an object or a list of objects), the associated
+                            TFField should be "foo.bar")
                           type: string
                         types:
                           description: Types is the supported types this resource
@@ -4029,7 +5311,9 @@ spec:
                                   through the KRM resource''s spec. It should follow
                                   the Kubernetes reference naming semantics:   `fooRef`,
                                   where foo is some describer of what is being referenced
-                                  (e.g.   instanceRef, healthCheckRef)'
+                                  (e.g.   instanceRef, healthCheckRef) Complex references
+                                  (those with a "Types" list defined) or lists of
+                                  references should not specify a key.'
                                 type: string
                               kind:
                                 description: Kind is the Kubernetes kind of the resource
@@ -4043,9 +5327,9 @@ spec:
                                 description: Parent specifies whether the referenced
                                   resource is a parent. If the parent is successfully
                                   deleted, this resource may be deleted without any
-                                  call to the underlying API. If a reference is a
-                                  parent, it must also be marked as required. Only
-                                  one parent may be present.
+                                  call to the underlying API. Only one parent may
+                                  be present. A parent reference's TFField must not
+                                  be a nested path.
                                 type: boolean
                               targetField:
                                 description: 'TargetField is the field of the referenced
@@ -4240,9 +5524,6 @@ spec:
               type: string
             instanceRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -4335,9 +5616,6 @@ spec:
               type: string
             masterInstanceRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -4572,9 +5850,6 @@ spec:
               type: string
             instanceRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -4959,9 +6234,6 @@ spec:
           properties:
             bucketRef:
               properties:
-                kind:
-                  description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-                  type: string
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                   type: string
@@ -5025,6 +6297,123 @@ spec:
                 team:
                   type: string
               type: object
+          type: object
+      required:
+      - spec
+      type: object
+  version: v1alpha2
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    cnrm.cloud.google.com/managed-by-kcc: "true"
+    cnrm.cloud.google.com/tf2crd: "true"
+  name: storagenotifications.storage.cnrm.cloud.google.com
+spec:
+  group: storage.cnrm.cloud.google.com
+  names:
+    categories:
+    - gcp
+    kind: StorageNotification
+    plural: storagenotifications
+    singular: storagenotification
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'apiVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            bucketRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+            customAttributes:
+              additionalProperties:
+                type: string
+              type: object
+            eventTypes:
+              items:
+                type: string
+              type: array
+            objectNamePrefix:
+              type: string
+            payloadFormat:
+              type: string
+            topicRef:
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
+          required:
+          - bucketRef
+          - payloadFormat
+          - topicRef
+          type: object
+        status:
+          properties:
+            conditions:
+              description: Conditions represents the latest available observation
+                of the resource's current state.
+              items:
+                properties:
+                  lastTransitionTime:
+                    description: Last time the condition transitioned from one status
+                      to another.
+                    type: string
+                  message:
+                    description: Human-readable message indicating details about last
+                      transition.
+                    type: string
+                  reason:
+                    description: Unique, one-word, CamelCase reason for the condition's
+                      last transition.
+                    type: string
+                  status:
+                    description: Status is the status of the condition. Can be True,
+                      False, Unknown.
+                    type: string
+                  type:
+                    description: Type is the type of the condition.
+                    type: string
+                type: object
+              type: array
+            notificationId:
+              type: string
+            selfLink:
+              type: string
           type: object
       required:
       - spec
