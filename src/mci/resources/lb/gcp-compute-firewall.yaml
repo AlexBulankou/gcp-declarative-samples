@@ -1,4 +1,4 @@
-apiVersion: compute.cnrm.cloud.google.com/v1alpha2
+apiVersion: compute.cnrm.cloud.google.com/v1alpha3
 kind: ComputeFirewall
 metadata:
   name: fw-allow-mci-neg

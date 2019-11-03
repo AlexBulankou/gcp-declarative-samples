@@ -1,11 +1,11 @@
-apiVersion: compute.cnrm.cloud.google.com/v1alpha2
+apiVersion: compute.cnrm.cloud.google.com/v1alpha3
 kind: ComputeForwardingRule
 metadata:
   name: node-app-forwarding-rule
 spec:
-  targetRef:
-    name: node-app-target-proxy
-    kind: ComputeTargetHTTPProxy
+  target:
+    targetHTTPProxyRef:
+      name: node-app-target-proxy
   portRange: "80"
   ipProtocol: "TCP"
   ipVersion: "IPV4"
