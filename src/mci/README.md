@@ -9,19 +9,19 @@
 
 1. Switch the context to North American cluster and create a pod and a service:
 
-```bash
-gcloud container clusters get-credentials cluster-na --zone=us-central1-a
-kubectl apply -f resources/na/
-```
+    ```bash
+    gcloud container clusters get-credentials cluster-na --zone=us-central1-a
+    kubectl apply -f resources/na/
+    ```
 
 1. Switch the context to Europe cluster and create a pod and a service:
 
-```bash
-gcloud container clusters get-credentials cluster-eu --zone=europe-west2-a
-kubectl apply -f resources/eu/
-```
+    ```bash
+    gcloud container clusters get-credentials cluster-eu --zone=europe-west2-a
+    kubectl apply -f resources/eu/
+    ```
 
-1. Get network endpoint groups:
+1. Get the links to newly created network endpoint groups:
     ```bash
     gcloud compute network-endpoint-groups list --format="value(uri())"
     ```
