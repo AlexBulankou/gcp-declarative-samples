@@ -94,18 +94,3 @@ This sample shows how Anthos Config Management can be used together with Config 
     ```
 
     Last update on both should say: `The resource is up to date`.
-
-1. Enable one temporary that cannot be executed declaratively. It will soon be replaced by Config Connector declarative config
-    ```bash
-    PROJECT_ID=[PROJECT_ID]
-    gcloud config set project ${PROJECT_ID}-dev
-    SQL_SA_EMAIL_DEV=sql-wp-sa@${PROJECT_ID}-dev.iam.gserviceaccount.com
-    gcloud projects add-iam-policy-binding ${PROJECT_ID}-dev --member "serviceAccount:${SQL_SA_EMAIL_DEV}" --role roles/cloudsql.client
-    gcloud services enable sqladmin.googleapis.com --project ${PROJECT_ID}-dev
-
-    gcloud config set project ${PROJECT_ID}-prod
-    SQL_SA_EMAIL_PROD=sql-wp-sa@${PROJECT_ID}-prod.iam.gserviceaccount.com
-    gcloud projects add-iam-policy-binding ${PROJECT_ID}-prod --member "serviceAccount:${SQL_SA_EMAIL_PROD}" --role roles/cloudsql.client
-    gcloud services enable sqladmin.googleapis.com --project ${PROJECT_ID}-prod
-    gcloud config set project $PROJECT_ID
-    ```

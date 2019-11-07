@@ -1,0 +1,10 @@
+apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+kind: IAMPolicyMember
+metadata:
+  name: sql-sa-policy
+spec:
+  member: serviceAccount:sql-wp-sa@[PROJECT_ID]-dev.iam.gserviceaccount.com
+  role: roles/cloudsql.client
+  resourceRef:
+    kind: Project
+    name: [PROJECT_ID]-dev
