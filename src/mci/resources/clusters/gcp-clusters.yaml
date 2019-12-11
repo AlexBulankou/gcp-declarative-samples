@@ -9,6 +9,9 @@ spec:
   initialNodeCount: 1
   removeDefaultNodePool: false
   loggingService: none
+  nodeConfig:
+    oauthScopes:
+    - "https://www.googleapis.com/auth/cloud-platform"
   masterAuth:
     username: "user"
     password: "password12345678"
@@ -26,6 +29,9 @@ spec:
   initialNodeCount: 1
   removeDefaultNodePool: false
   loggingService: none
+  nodeConfig:
+    oauthScopes:
+    - "https://www.googleapis.com/auth/cloud-platform"
   masterAuth:
     username: "user"
     password: "password12345678"

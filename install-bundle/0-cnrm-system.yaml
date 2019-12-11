@@ -247,6 +247,18 @@ rules:
   - patch
   - delete
 - apiGroups:
+  - firestore.cnrm.cloud.google.com
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
   - iam.cnrm.cloud.google.com
   resources:
   - '*'
@@ -412,7 +424,7 @@ spec:
         env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
-        image: gcr.io/cnrm-eap/controller:1c2f0ce
+        image: gcr.io/cnrm-eap/controller:2f28d1e
         imagePullPolicy: Always
         name: manager
         resources:

@@ -5,13 +5,6 @@ metadata:
   labels:
     retry: again
 spec:
-  backend:
-  - group: "[NEG1]"
-    balancingMode: RATE
-    maxRate: 100
-  - group: "[NEG2]"
-    balancingMode: RATE
-    maxRate: 100
   healthCheckRef:
     name: node-app-backend-healthcheck
   protocol: HTTP

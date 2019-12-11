@@ -4,6 +4,7 @@ metadata:
   name: node-app-backend
   annotations:
     cloud.google.com/neg: '{"exposed_ports": {"80":{}}}'
+    anthos.cft.dev/autoneg: '{"name":"node-app-backend-service", "max_rate_per_endpoint":100}'
 spec:
   type: ClusterIP
   selector:
