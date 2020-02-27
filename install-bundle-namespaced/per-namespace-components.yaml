@@ -1,0 +1,135 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    iam.gke.io/gcp-service-account: cnrm-system-${NAMESPACE?}@${PROJECT_ID?}.iam.gserviceaccount.com
+  labels:
+    cnrm.cloud.google.com/system: "true"
+  name: cnrm-controller-manager
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    cnrm.cloud.google.com/system: "true"
+  name: cnrm-manager-ns-binding-${NAMESPACE?}
+  namespace: cnrm-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cnrm-manager-ns-role
+subjects:
+- kind: ServiceAccount
+  name: cnrm-controller-manager
+  namespace: ${NAMESPACE?}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    cnrm.cloud.google.com/system: "true"
+  name: cnrm-admin-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cnrm-admin
+subjects:
+- kind: ServiceAccount
+  name: cnrm-controller-manager
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    cnrm.cloud.google.com/system: "true"
+  name: cnrm-manager-ns-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cnrm-manager-ns-role
+subjects:
+- kind: ServiceAccount
+  name: cnrm-controller-manager
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    cnrm.cloud.google.com/system: "true"
+  name: cnrm-manager-cluster-binding-${NAMESPACE?}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cnrm-manager-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: cnrm-controller-manager
+  namespace: ${NAMESPACE?}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "8888"
+    prometheus.io/scrape: "true"
+  labels:
+    cnrm.cloud.google.com/monitored: "true"
+    cnrm.cloud.google.com/system: "true"
+  name: cnrm-controller-manager-service
+spec:
+  ports:
+  - name: controller-manager
+    port: 443
+  - name: metrics
+    port: 8888
+  selector:
+    cnrm.cloud.google.com/component: cnrm-controller-manager
+    cnrm.cloud.google.com/system: "true"
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    cnrm.cloud.google.com/component: cnrm-controller-manager
+    cnrm.cloud.google.com/system: "true"
+  name: cnrm-controller-manager
+spec:
+  selector:
+    matchLabels:
+      cnrm.cloud.google.com/component: cnrm-controller-manager
+      cnrm.cloud.google.com/system: "true"
+  serviceName: cnrm-controller-manager-service
+  template:
+    metadata:
+      labels:
+        cnrm.cloud.google.com/component: cnrm-controller-manager
+        cnrm.cloud.google.com/system: "true"
+    spec:
+      containers:
+      - args:
+        - --namespaced
+        - --stderrthreshold=INFO
+        - --prometheus-scrape-endpoint=:8888
+        command:
+        - /configconnector/manager
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: gcr.io/cnrm-eap/controller:b06a1e6
+        imagePullPolicy: Always
+        name: manager
+        resources:
+          limits:
+            cpu: 100m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          privileged: false
+          runAsNonRoot: true
+          runAsUser: 1000
+      serviceAccountName: cnrm-controller-manager
+      terminationGracePeriodSeconds: 10

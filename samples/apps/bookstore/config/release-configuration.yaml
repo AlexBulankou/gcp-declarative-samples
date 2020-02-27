@@ -1,0 +1,266 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: booksfe
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: booksfe
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: inventory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: purchases
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: purchases
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: users
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: booksfe
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: booksfe
+        service: booksfe-service
+        target_service: booksfe-service
+        targetService: booksfe-service
+    spec:
+      containers:
+      - env:
+        - name: SVC_USERS_HOST
+          value: users
+        - name: SVC_USERS_PORT
+          value: "8080"
+        - name: SVC_BOOKS_HOST
+          value: inventory
+        - name: SVC_BOOKS_PORT
+          value: "8080"
+        - name: SVC_PURCHASES_HOST
+          value: purchases
+        - name: SVC_PURCHASES_PORT
+          value: "8080"
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: PUBSUB_TOPIC
+          value: cnrm-topic
+        image: gcr.io/cnrm-eap/bookstore/app:a6254e8
+        imagePullPolicy: Always
+        name: booksfe-svc
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /var/secrets/google
+          name: cnrm-bookstore-frontend-key
+      volumes:
+      - name: cnrm-bookstore-frontend-key
+        secret:
+          secretName: cnrm-bookstore-frontend-key
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: inventory
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: inventory
+        service: inventory-service
+        target_service: inventory-service
+        targetService: inventory-service
+    spec:
+      containers:
+      - env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: SPANNER_INSTANCE
+          value: cnrm-instance
+        image: gcr.io/cnrm-eap/bookstore/inventory:b06a1e69
+        imagePullPolicy: Always
+        name: inventory-svc
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /var/secrets/google
+          name: cnrm-bookstore-inventory-key
+      volumes:
+      - name: cnrm-bookstore-inventory-key
+        secret:
+          secretName: cnrm-bookstore-inventory-key
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: purchases
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: purchases
+        service: purchases-service
+        target_service: purchases-service
+        targetService: purchases-service
+    spec:
+      containers:
+      - env:
+        - name: SVC_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: SVC_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: SVC_USERS_HOST
+          value: users
+        - name: SVC_USERS_PORT
+          value: "8080"
+        - name: SVC_BOOKS_HOST
+          value: inventory
+        - name: SVC_BOOKS_PORT
+          value: "8080"
+        image: gcr.io/cnrm-eap/bookstore/purchases:b06a1e69
+        name: purchases-svc
+        ports:
+        - containerPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: users
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: users
+        service: users-service
+        target_service: users-service
+        targetService: users-service
+    spec:
+      containers:
+      - image: gcr.io/cnrm-eap/bookstore/users:b06a1e69
+        name: users-svc
+        ports:
+        - containerPort: 8080
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicy
+metadata:
+  name: cnrm-bookstore-pubsub-policy
+spec:
+  bindings:
+  - members:
+    - serviceAccount:cnrm-bookstore-frontend@[PROJECT_ID].iam.gserviceaccount.com
+    role: roles/editor
+  resourceRef:
+    apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
+    kind: PubSubTopic
+    name: cnrm-topic
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicy
+metadata:
+  name: cnrm-bookstore-spanner-policy
+spec:
+  bindings:
+  - members:
+    - serviceAccount:cnrm-bookstore-inventory@[PROJECT_ID].iam.gserviceaccount.com
+    role: roles/editor
+  resourceRef:
+    apiVersion: spanner.cnrm.cloud.google.com/v1beta1
+    kind: SpannerInstance
+    name: cnrm-instance
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: cnrm-bookstore-frontend
+spec:
+  displayName: Service account for Config Connector bookstore demo frontend
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: cnrm-bookstore-inventory
+spec:
+  displayName: Service account for Config Connector bookstore demo inventory
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccountKey
+metadata:
+  name: cnrm-bookstore-frontend-key
+spec:
+  keyAlgorithm: KEY_ALG_RSA_2048
+  privateKeyType: TYPE_GOOGLE_CREDENTIALS_FILE
+  publicKeyType: TYPE_X509_PEM_FILE
+  serviceAccountRef:
+    name: cnrm-bookstore-frontend
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccountKey
+metadata:
+  name: cnrm-bookstore-inventory-key
+spec:
+  keyAlgorithm: KEY_ALG_RSA_2048
+  privateKeyType: TYPE_GOOGLE_CREDENTIALS_FILE
+  publicKeyType: TYPE_X509_PEM_FILE
+  serviceAccountRef:
+    name: cnrm-bookstore-inventory
+---
+apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
+kind: PubSubSubscription
+metadata:
+  name: cnrm-subscription
+spec:
+  topicRef:
+    name: cnrm-topic
+---
+apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
+kind: PubSubTopic
+metadata:
+  name: cnrm-topic
+---
+apiVersion: spanner.cnrm.cloud.google.com/v1beta1
+kind: SpannerInstance
+metadata:
+  name: cnrm-instance
+spec:
+  config: regional-us-central1
+  displayName: Bookstore
+  numNodes: 1

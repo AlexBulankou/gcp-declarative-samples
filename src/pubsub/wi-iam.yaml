@@ -12,12 +12,12 @@
 # To use it in your pod, add to your pod spec:
 # serviceAccountName: [KSA_NAME]
 
-apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
 kind: PubSubTopic
 metadata:
   name: [PUBSUB_TOPIC_NAME]
 ---
-apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
 kind: PubSubSubscription
 metadata:
   name: [PUBSUB_SUBSCRIPTION_NAME]
@@ -25,13 +25,13 @@ spec:
   topicRef:
     name: [PUBSUB_TOPIC_NAME]
 ---
-apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicy
 metadata:
   name: [PUBSUB_POLICY]
 spec:
   resourceRef:
-    apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+    apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
     kind: PubSubTopic
     name: [PUBSUB_TOPIC_NAME]
   bindings:
@@ -39,20 +39,20 @@ spec:
       members:
         - serviceAccount:[SA_NAME]@[PROJECT_ID].iam.gserviceaccount.com
 ---
-apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMServiceAccount
 metadata:
   name: [SA_NAME]
 spec:
   displayName: Service account for Pubsub access
 ---
-apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicy
 metadata:
   name: [WI_POLICY]
 spec:
   resourceRef:
-    apiVersion: iam.cnrm.cloud.google.com/v1alpha1
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
     kind: IAMServiceAccount
     name: [SA_NAME]
   bindings:

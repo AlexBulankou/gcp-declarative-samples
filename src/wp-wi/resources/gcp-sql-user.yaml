@@ -1,4 +1,4 @@
-apiVersion: sql.cnrm.cloud.google.com/v1alpha3
+apiVersion: sql.cnrm.cloud.google.com/v1beta1
 kind: SQLUser
 metadata:
   name: wordpress
@@ -6,4 +6,8 @@ spec:
   instanceRef:
     name: wp-db
   host: "%"
-  password: change-me
+  password:
+    valueFrom:
+      secretKeyRef:
+        name: wordpress-cloudsql-db-credentials
+        key: password

@@ -1,0 +1,29 @@
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeBackendService
+metadata:
+  name: computeurlmap-dep1
+spec:
+  healthChecks:
+    - healthCheckRef:
+        name: computeurlmap-dep
+  location: global
+---
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeBackendService
+metadata:
+  name: computeurlmap-dep2
+spec:
+  healthChecks:
+    - healthCheckRef:
+        name: computeurlmap-dep
+  location: global
+---
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeBackendService
+metadata:
+  name: computeurlmap-dep3
+spec:
+  healthChecks:
+    - healthCheckRef:
+        name: computeurlmap-dep
+  location: global

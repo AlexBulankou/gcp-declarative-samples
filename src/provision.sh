@@ -9,7 +9,7 @@ export SA_EMAIL="cnrm-system@${PROJECT_ID}.iam.gserviceaccount.com"
 export WP_SA_EMAIL=sql-wp-sa@${PROJECT_ID}.iam.gserviceaccount.com
 
 
-gcloud projects create $PROJECT_ID --name="$PROJECT_ID"
+gcloud projects create $PROJECT_ID --name="$PROJECT_ID" --folder=[FOLDER_ID]
 gcloud alpha billing projects link $PROJECT_ID --billing-account $BILLING_ACCOUNT
 gcloud config set project $PROJECT_ID
 
@@ -35,10 +35,10 @@ gcloud container clusters get-credentials $CLUSTER_ID --zone=$ZONE
 
 # install KCC
 kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $(gcloud config get-value account)
-curl -X GET -sLO --location-trusted https://us-central1-cnrm-eap.cloudfunctions.net/download/latest/infra/install-bundle.tar.gz
-rm -rf install-bundle
-tar zxvf install-bundle.tar.gz
-kubectl apply -f install-bundle/
+gsutil cp gs://cnrm/latest/release-bundle.tar.gz release-bundle.tar.gz
+rm -rf release-bundle
+tar zxvf release-bundle.tar.gz
+kubectl apply -f install-bundle-gcp-identity/
 
 # give cnrm-system namespace permissions to manage GCP
 kubectl create secret generic gcp-key --from-file ./key.json --namespace cnrm-system

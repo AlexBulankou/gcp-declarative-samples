@@ -1,4 +1,4 @@
-apiVersion: pubsub.cnrm.cloud.google.com/v1alpha2
+apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
 kind: PubSubTopic
 metadata:
   labels:
