@@ -42,6 +42,7 @@ rules:
   - bigtable.cnrm.cloud.google.com
   - compute.cnrm.cloud.google.com
   - container.cnrm.cloud.google.com
+  - dataflow.cnrm.cloud.google.com
   - dns.cnrm.cloud.google.com
   - firestore.cnrm.cloud.google.com
   - iam.cnrm.cloud.google.com
@@ -379,8 +380,8 @@ spec:
         - /configconnector/recorder
         env:
         - name: CONFIG_CONNECTOR_VERSION
-          value: 1.2.0
-        image: gcr.io/cnrm-eap/recorder:b06a1e6
+          value: 1.3.0
+        image: gcr.io/cnrm-eap/recorder:3540e57
         imagePullPolicy: Always
         name: recorder
         resources:
@@ -427,7 +428,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: gcr.io/cnrm-eap/webhook:b06a1e6
+        image: gcr.io/cnrm-eap/webhook:3540e57
         imagePullPolicy: Always
         name: webhook
         resources:
@@ -477,7 +478,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: gcr.io/cnrm-eap/controller:b06a1e6
+        image: gcr.io/cnrm-eap/controller:3540e57
         imagePullPolicy: Always
         name: manager
         resources:

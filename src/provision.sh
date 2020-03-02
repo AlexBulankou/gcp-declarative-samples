@@ -45,3 +45,4 @@ kubectl create secret generic gcp-key --from-file ./key.json --namespace cnrm-sy
 
 # annotate the namespace
 kubectl annotate namespace default "cnrm.cloud.google.com/project-id=${PROJECT_ID}" --overwrite
+    

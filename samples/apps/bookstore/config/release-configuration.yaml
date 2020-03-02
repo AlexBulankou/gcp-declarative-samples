@@ -109,7 +109,7 @@ spec:
           value: /var/secrets/google/key.json
         - name: SPANNER_INSTANCE
           value: cnrm-instance
-        image: gcr.io/cnrm-eap/bookstore/inventory:b06a1e69
+        image: gcr.io/cnrm-eap/bookstore/inventory:3540e57f
         imagePullPolicy: Always
         name: inventory-svc
         ports:
@@ -154,7 +154,7 @@ spec:
           value: inventory
         - name: SVC_BOOKS_PORT
           value: "8080"
-        image: gcr.io/cnrm-eap/bookstore/purchases:b06a1e69
+        image: gcr.io/cnrm-eap/bookstore/purchases:3540e57f
         name: purchases-svc
         ports:
         - containerPort: 8080
@@ -174,7 +174,7 @@ spec:
         targetService: users-service
     spec:
       containers:
-      - image: gcr.io/cnrm-eap/bookstore/users:b06a1e69
+      - image: gcr.io/cnrm-eap/bookstore/users:3540e57f
         name: users-svc
         ports:
         - containerPort: 8080
