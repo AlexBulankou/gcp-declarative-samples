@@ -19,18 +19,18 @@ gcloud iam service-accounts create cnrm-system --project ${PROJECT_ID}
 gcloud projects add-iam-policy-binding ${PROJECT_ID} --member "serviceAccount:${SA_EMAIL}" --role roles/owner
 gcloud iam service-accounts keys create --iam-account "${SA_EMAIL}" ./key.json
 
-gcloud services enable pubsub.googleapis.com --project ${PROJECT_ID}
-gcloud services enable spanner.googleapis.com --project ${PROJECT_ID}
-gcloud services enable sqladmin.googleapis.com --project ${PROJECT_ID}
-gcloud services enable redis.googleapis.com --project ${PROJECT_ID}
+#gcloud services enable pubsub.googleapis.com --project ${PROJECT_ID}
+#gcloud services enable spanner.googleapis.com --project ${PROJECT_ID}
+#gcloud services enable sqladmin.googleapis.com --project ${PROJECT_ID}
+#gcloud services enable redis.googleapis.com --project ${PROJECT_ID}
 gcloud services enable cloudresourcemanager.googleapis.com --project ${PROJECT_ID}
 gcloud services enable container.googleapis.com --project ${PROJECT_ID}
-gcloud services enable dns.googleapis.com --project ${PROJECT_ID}
+#gcloud services enable dns.googleapis.com --project ${PROJECT_ID}
 
 
 # for each cluster
 # Note: this creates a cluster with workload identity enabled, using Beta API
-gcloud beta container clusters create ${CLUSTER_ID} --identity-namespace=${PROJECT_ID}.svc.id.goog --zone $ZONE
+gcloud container clusters create ${CLUSTER_ID} --num-nodes=5 --identity-namespace=${PROJECT_ID}.svc.id.goog --zone $ZONE
 gcloud container clusters get-credentials $CLUSTER_ID --zone=$ZONE
 
 # install KCC

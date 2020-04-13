@@ -1,0 +1,8 @@
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeHealthCheck
+metadata:
+  name: computebackendservice-dep-externalloadbalancing
+spec:
+  httpsHealthCheck:
+    port: 443
+  location: global

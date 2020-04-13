@@ -1,0 +1,8 @@
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeHealthCheck
+metadata:
+  name: computebackendservice-dep-internalmanagedloadbalancing
+spec:
+  httpHealthCheck:
+    port: 80
+  location: global
