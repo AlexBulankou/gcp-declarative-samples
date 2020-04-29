@@ -30,7 +30,7 @@ gcloud services enable container.googleapis.com --project ${PROJECT_ID}
 
 # for each cluster
 # Note: this creates a cluster with workload identity enabled, using Beta API
-gcloud container clusters create ${CLUSTER_ID} --num-nodes=5 --identity-namespace=${PROJECT_ID}.svc.id.goog --zone $ZONE
+gcloud container clusters create ${CLUSTER_ID} --workload-pool=${PROJECT_ID}.svc.id.goog --zone $ZONE
 gcloud container clusters get-credentials $CLUSTER_ID --zone=$ZONE
 
 # install KCC
