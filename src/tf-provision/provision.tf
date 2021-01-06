@@ -103,16 +103,20 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 
 resource "google_service_account" "cnrmsa" {
   account_id   = "cnrmsa"
-  project = "${google_project.root_project.project_id}"
+  project = google_project.root_project.project_id
   display_name = "IAM service account used by Config Connector"
 }
 
 resource "google_project_iam_binding" "project" {
-  project = "${google_project.root_project.project_id}"
+  project = google_project.root_project.project_id
   role    = "roles/owner"
 
   members = [
     "serviceAccount:${google_service_account.cnrmsa.email}",
+  ]
+
+  depends_on = [
+    google_service_account.cnrmsa
   ]
 }
 
@@ -123,4 +127,14 @@ resource "google_service_account_iam_binding" "admin-account-iam" {
   members = [
     "serviceAccount:${google_project.root_project.project_id}.svc.id.goog[cnrm-system/cnrm-controller-manager]",
   ]
+
+  depends_on = [
+    google_container_cluster.primary,
+    google_service_account.cnrmsa
+  ]
+}
+
+output "project_id" {
+  value       = google_project.root_project.project_id
+  description = "Created project id"
 }
