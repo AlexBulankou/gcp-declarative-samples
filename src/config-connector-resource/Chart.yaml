@@ -1,0 +1,4 @@
+apiVersion: v1
+name: config-connector-installation
+version: 0.1.0
+description: configures custom resource for GCP Config Connector

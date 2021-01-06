@@ -45,6 +45,7 @@ resource "google_project_service" "containerservice" {
 }
 
 resource "google_container_cluster" "primary" {
+  provider = google-beta
   name      = "cluster-1"
   project   = google_project.root_project.project_id
   location  = local.zone
@@ -63,6 +64,17 @@ resource "google_container_cluster" "primary" {
       issue_client_certificate = false
     }
   }
+
+  workload_identity_config {
+        identity_namespace = "${google_project.root_project.project_id}.svc.id.goog"
+    }
+
+  addons_config {
+    config_connector_config {
+      enabled = true
+    }
+}
+
   depends_on = [
     google_project_service.containerservice
   ]
@@ -73,7 +85,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   project    = google_project.root_project.project_id
   cluster    = google_container_cluster.primary.name
   location   = local.zone
-  node_count = 1
+  node_count = 3
 
   node_config {
     preemptible  = true
@@ -87,4 +99,28 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
+}
+
+resource "google_service_account" "cnrmsa" {
+  account_id   = "cnrmsa"
+  project = "${google_project.root_project.project_id}"
+  display_name = "IAM service account used by Config Connector"
+}
+
+resource "google_project_iam_binding" "project" {
+  project = "${google_project.root_project.project_id}"
+  role    = "roles/owner"
+
+  members = [
+    "serviceAccount:${google_service_account.cnrmsa.email}",
+  ]
+}
+
+resource "google_service_account_iam_binding" "admin-account-iam" {
+  service_account_id = google_service_account.cnrmsa.name
+  role               = "roles/iam.workloadIdentityUser"
+
+  members = [
+    "serviceAccount:${google_project.root_project.project_id}.svc.id.goog[cnrm-system/cnrm-controller-manager]",
+  ]
 }
